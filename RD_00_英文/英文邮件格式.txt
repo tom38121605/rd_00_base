@@ -1,0 +1,89 @@
+
+I'd like to request a two-hour break in the afternoon for vaccination, Thanks a lot.
+
+Fihonest have replyed the new section 6 and 7 of the requirements. 
+
+Following is the reply from the Fihonest.
+
+
+I have sent an email to Worldelite to ask for the Bluetooth's issue.
+And the following is the reply from the BT supplier Worldelite. 
+We can't reproduce the issue here. 
+
+KT-198BP:
+1. Please find the attached latest version of the BT firmware(V19) and the MCU firmware(V1829) of the Snooz Button App.
+
+
+
+
+2. Following are the reply about the APP(V8) connection and communication with BT(V9) from Worldelite Liu Gong for the Snooz Button App:
+
+1. We have confirmed that the UUID in BT is exactly the same as the UUID in the file "gatt.xml" from the customer, and can see the BT UUID on the lightbule screen after connected.
+2. BT havn't received the password data sended by APP every 500ms. 
+
+
+KT-198G:
+Please find the attached latest version of the BT firmware(V50) and the MCU firmware(V1827/V1828) of the Snooz Go/Baby.
+1. 
+
+
+
+Please find the attached latest version of the MCU firmware(V1885/V1886) of the Snooz Go/Baby.
+1. Have fixed the high-pitched noise  issue at low voltage when power off. 
+2. Have removed the disconnect tone at BT power off.
+
+
+
+Please find the attached latest version of the BT firmware(V38) and the MCU firmware(V65) of the Snooz Button App.
+1. Have removed the disconnect tone at BT power off. 
+
+
+Please find the attached latest version of the BT firmware(V40) of the Snooz Button App.
+1. Can fast reconnect BT on the android phone. 
+
+
+
+Please find the attached latest version of the MCU firmware(V105) of the Snooz Button App.
+1. Have changed the real time module for the data from APP.
+
+
+Please find the attached latest version of the MCU firmware(V95) of the Snooz Button App.
+1. Have increased the max white noise volume by 2 levels.
+2. Have removed the crack noise at pausing the music.
+
+The new White noise and Fan noise volume table:
+
+ WN1£º  2 -- 22     
+ WN2£º  1 -- 21     
+ WN3£º  1 -- 21      
+ FN1£º   1 -- 21     
+ FN2£º   2 -- 22     
+ FN3£º   1 -- 21   
+
+
+Please find the attached latest version of the BT firmware(V41) of the Snooz Button App.
+1. Have set the new EQ files. 
+
+
+Please find the attached latest version of the BT firmware(V45) of the Snooz Button App.  
+1. Have optimized the max volume module at the BT module. 
+
+
+
+1. It would be helpful for me if we can have a further call this week to discuss your proposed protocol and the timing.
+   There are just some aspects that are not clear to me or I would like to get some clarification on.
+   Please feel free to send a Teams invitation, the usual time of our call is fine, any day this week.
+
+
+Please find the attached STM32C011F6U6 DFU report, Thanks.
+
+---
+
+Nice work on these schematics. I only have a couple of notes for you. 
+
+---
+
+Initial version
+
+
+
