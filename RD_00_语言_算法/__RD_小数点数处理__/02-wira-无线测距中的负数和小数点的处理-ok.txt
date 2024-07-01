@@ -1,0 +1,31 @@
+#define DWT_TIME_UNITS      (1.0/499.2e6/128.0)      //!&lt; = 15.65e-12 s
+
+static double tof;
+static double distance;
+void anchor_range(void)
+    double Ra, Rb, Da, Db;
+    int64_t tof_dtu;
+ 
+              /* Compute time of flight. 32-bit subtractions give correct answers even if clock has wrapped. See NOTE 12 below. */
+                        poll_rx_ts_32 = (uint32_t)poll_rx_ts;
+                        resp_tx_ts_32 = (uint32_t)resp_tx_ts;
+                        final_rx_ts_32 = (uint32_t)final_rx_ts;
+                        Ra = (double)(resp_rx_ts - poll_tx_ts);          //T1= t3-t0
+                        Rb = (double)(final_rx_ts_32 - resp_tx_ts_32);   //T4= t5-t2
+                        Da = (double)(final_tx_ts - resp_rx_ts);         //T3= t4-t3
+                        Db = (double)(resp_tx_ts_32 - poll_rx_ts_32);    //T2= t2-t1
+                        tof_dtu = (int64_t)((Ra * Rb - Da * Db) / (Ra + Rb + Da + Db));
+
+
+                        poll_rx_ts_32 = (uint32_t)poll_rx_ts;
+                        resp_tx_ts_32 = (uint32_t)resp_tx_ts;
+                        final_rx_ts_32 = (uint32_t)final_rx_ts;
+                        Ra = (double)(resp_rx_ts - poll_tx_ts);          //T1= t3-t0
+                        Rb = (double)(final_rx_ts_32 - resp_tx_ts_32);   //T4= t5-t2
+                        Da = (double)(final_tx_ts - resp_rx_ts);         //T3= t4-t3
+                        Db = (double)(resp_tx_ts_32 - poll_rx_ts_32);    //T2= t2-t1
+                        tof_dtu = (int64_t)((Ra * Rb - Da * Db) / (Ra + Rb + Da + Db));
+
+                        tof = tof_dtu * DWT_TIME_UNITS;
+                        distance = tof * SPEED_OF_LIGHT;
+                        printf("DIST: %3.2f m\r\n", distance );

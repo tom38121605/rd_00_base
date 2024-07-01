@@ -1,0 +1,23 @@
+
+1. 如果负数是以补码存储在传感器中，可直接强制转换成signed型负数，示例如下：
+
+      uint8_t aa =0xff;
+      int8_t bb=0;
+      uint8_t stemp2[20];
+      
+      bb=(int8_t)aa;
+      sprintf((char*)stemp2,"val: %d,%d\r\n",aa,bb);
+      uartsendstr(stemp2);
+
+
+   打印结果： 
+
+      val: 255,-1
+
+
+
+ 
+
+
+
+

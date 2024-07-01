@@ -1,0 +1,6 @@
+
+https://www.metools.info/code/c128.html     //checksum 在线计算
+
+https://www.lddgo.net/encrypt/crc              //crc在线计算
+
+
