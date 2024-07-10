@@ -1,0 +1,112 @@
+
+1.应用板子列表：
+
+   板1：  tx板（本公司做的），直接插在电脑上的小板  ，MCU芯片完整型号：  STM32H7A3RIT
+   板2：  rx板（本公司做的），两块板相连，圆板对应电路图，另一板上有耳机插孔 ，MCU芯片完整型号：  STM32H7A3RIT  
+   板3：  tx板 （Qorvo公司的白板（STM32） + 红板（或DW3210板） ）  ，可再飞线一个耳机插板 ，MCU芯片完整型号：   STM32F429ZI  
+   板4：  同板3   
+
+
+2. 最新烧录固件和源程序版本： （客户最新）
+   板1 hex：      工程\hex__up_customer\20230606_hex_tx_V0.05\AUDIO-H7A3RI-AudioTX-FreeRTOS.hex                   (来自肖工Basecamp)
+   板1 源程序：  无
+
+   板2 hex：      工程\hex__up_customer\20230615_hex_svn_H7_rx_v0.0.5\AUDIO-H7A3RI-AudioRX-FreeRTOS.hex        (来自SVN V44)
+                    SVN\FW\Audio_Streaming_POC_0.0.5_Beta_For_GS\AUDIO-H7A3RI-AudioRX-FreeRTOS.hex
+   板2 源程序：  SVN\FW\Audio_Streaming_POC_0.0.5_Beta_For_GS\AUDIO-H7A3RI-AudioRX-FreeRTOS.zip
+
+   板3 hex：      SVN\FW\Audio_Streaming_POC_0.0.5_Beta_For_GS\NUCLEO-F429ZI-AudioTX-FreeRTOS.hex             
+   板3 源程序：  SVN\FW\Audio_Streaming_POC_0.0.5_Beta_For_GS\NUCLEO-F429ZI-AudioTX-FreeRTOS.zip
+
+   板4 hex：      SVN\FW\Audio_Streaming_POC_0.0.5_Beta_For_GS\NUCLEO-F429ZI-AudioRX-FreeRTOS.hex             
+   板4 源程序：  SVN\FW\Audio_Streaming_POC_0.0.5_Beta_For_GS\NUCLEO-F429ZI-AudioRX-FreeRTOS.zip
+
+
+   最新烧录固件和源程序版本： （my最新）
+
+   板1 hex：      D:\STM32H7_SRC2_TX_vscode    （待完成）
+                       D:\uwbaudio_src5_sestx_F4_H7
+   板1 源程序：  同hex
+
+   板2 hex：      D:\STM32H7_SRC_RX_vscode             
+                       D:\uwbaudio_src3_sesrx_H7      
+   板2 源程序：  同hex
+
+   板3 hex：      E:\test3_vscodetx_F4 
+                       D:\uwbaudio_src5_sestx_F4_H7
+   板3 源程序：  同hex
+
+   板4 hex：      E:\test2_vscoderx_f4                   
+   板4 源程序：  同hex
+
+
+3. 原理图
+   板1：  F:\_Awork_all\_Awork52_UWB_audio\sch_Audio POC TX.pdf
+   板2：  F:\_Awork_all\_Awork52_UWB_audio\sch_Audio POC_rx.pdf
+   板3：  F:\_Awork_all\_Awork52_UWB_audio\EVK-STM32F429ZI\MB1137_sch_evk.pdf  （只有STM32部分）
+   板4：  同板3
+
+
+4. 烧录器，烧录软件和烧录过程  （板12 STM32H7ARIT ）
+   。烧录器：    用JLINK  V9 （ARM 仿真器）  (下面两个圆凹里有2个橙点)
+   。PC烧录软件： 使用Jflash Lite v7.58B 
+
+   烧录注意点：
+   。先插烧录器，再给板子上电
+   。连接线，黑色一边，对应边上是GND的引脚那边
+
+ 
+4. 烧录器，烧录软件和烧录过程  （板34 STM32F429ZI  ）
+   。烧录器：   板上自带ST-LINK
+   。PC烧录软件： STM32 ST-LINK Utility
+ 
+ 
+5. MCU芯片数据手册和参考手册 
+   目录：工程\datasheet_STM32H7A3  （官网下载，STM32官方论坛下载）
+   目录： 工程\datasheet_STM32F429   （官网下载，STM32官方论坛下载）
+
+6. 开发环境，下载地址
+   。开发环境： vscode
+
+   。下载和安装说明： 
+           \网友_vscode_编译烧录_all\ _00_ Vscode编辑器C_C++环境配置_vscode安装_及开发环境各大部件说明_good_ok.mhtml
+
+   。导入工程过程：
+      菜单： file\open folder   
+
+7. 插件和pack
+    下载地址：
+
+     安装说明： 
+
+8. 编译环境vscode，详细操作  (在win10电脑)
+    。使用工具链编译，也可安装git直接在git中编译，后者更简单一点
+   。 编译环境建立参考： \网友_vscode_编译烧录_all
+   。编写makefile文件
+   。打开git，進入makefile所在目录，输入make，回车，即开始编译
+
+9. evk开发板资料  STM32F429ZI
+    。下载地址
+    。EVK-STM32F429ZI
+    。evk原理图： \EVK-STM32F429ZI\MB1137_sch_evk.pdf
+
+
+10. 测试过程
+
+   。把tx板插入电脑
+   。在rx板上插入耳机
+   。给rx板插上电池
+   。在电脑上用winplay播放音乐
+
+
+
+
+
+=====================其他=============================
+
+ 其他特定工具 （如eq设置工具）
+
+
+
+
+

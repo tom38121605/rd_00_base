@@ -1,0 +1,170 @@
+
+You can also have 2 ways to program the firmware:
+
+1. Use segger IDE
+   。ommo_sensor_sampler  ， 11663 or 11952.
+   。ommo_sensor_sampler_memsic .  5603 under 
+   。under  ommo_sensor_sampler_test ， ef test
+
+2. Use program scripts
+
+    。repo/latest_firmware
+    。dos界面，  repo/flash_files， run "bootload.bat   bootloader.hex"
+    。用你的bootloader文件代替 "bootloader.hex" ，来 flash the bootloader
+
+    。Run "program.bat     COM#       firmware.zip"
+    。 用你的SIU的“COM port#”代替 COM#， 用你的firmware zip 代替   firmware.zip 
+
+3. ----  SES中烧录步骤 --------------
+
+  。ses修改hex烧录地址： 右键单击 project \options \ 左上角的下拉选Common（code上面）\code \linker \section placement macros \FLASH_START \设为0x00
+
+  。设置jlink烧录: 右键单击 project \options\code
+     .\Linker\linker:                                              SEGGER
+
+  。设置jlink烧录: 右键单击 project \options\debug
+
+     . \debugger\Tartet conecction:                      JLink 
+     . \debugger\Device:                                      Nrf52833_xxAA
+     .\GDB Server\Type:                                       J-link
+      .\GDB Server\GDB Server command line:     "$(JLinkDir)/JLinkGDBServerCL" -device "$(DeviceName)" -silent
+     .\J-link\Host connection:                               USB
+     .\J-link\Target interface type:                        SWD
+     .\J-link\Speed:                                             4000KHz
+
+
+  。选择release编译： 右键单击 project \options \ 左上角的下拉选release（code上面）\菜单build\build solution
+
+
+
+================================================
+
+1. 应用板子列表：
+   板1：  ADC板（客户寄来），绿板 （有3路adc输入的11针输入接口） ，MCU芯片完整型号： nrf52840? 
+
+2. 最新固件软件和源程序： （客户最新）
+    板1 bootload hex：      F:\_Awork_all\_AWork55_nrf52840\_bootloader_all\11763-adc_sampler_3ch-bootloader-PID48-v5004.hex
+    板1 firmware：             F:\_Awork_all\_AWork55_nrf52840\_bootloader_all\11763-adc_sampler_3ch-PID48-v5004.zip
+    板1 源程序：  无  (客户未提供) 
+
+   最新固件软件和源程序： （my最新）
+   无
+
+3. 原理图
+   板1：  F:\_Awork_all\_AWork55_nrf52840\sch_11763-B-00 EL-ASM, ADC BOARD V2 BARE BOARD (11682,11755,11756)_org.pdf  （来自客户）
+
+
+4. 烧录bootloader hex文件： 硬件烧录器，PC烧录软件，烧录固件文件，烧录过程 （板1 nrf52840?）    （已验证）   -- 是否可以省略这大步
+
+   。硬件烧录工具： JLINK V9  （ARM仿真器）   //下面标签上有2根橙色直划线
+   。硬件连线： 板1的swd接口  -- Jlink V -- PC
+                      板1的typeC接口  -- 接typeC 5V电源
+
+   。PC烧录软件： 使用Jflash Lite v7.58B 
+   。烧录安装软件： 略 （太常用，在segger官网下载）
+
+   。烧录固件文件： 11763-adc_sampler_3ch-bootloader-PID48-v5004.hex
+
+   。烧录过程： 
+         . 运行Jflash Lite v7.58B 
+         . 搜索单片机型号： nrf52840
+         . 导入要烧录的hex文件
+         . 按programme ， 烧录成功会显示 " done"
+
+   烧录注意点：
+   。JLINK V9连接线，连接板1，黑色一边，靠近OMMO图标
+   。先插Jlink烧录器，再给板子的typeC接口接电源，接好后，Jlink的电源的指示灯会由红变绿
+
+***4. update固件： 硬件烧录器，PC烧录软件，烧录固件文件，烧录过程 （板1 nrf52840?）   （待完成）
+  
+   。硬件烧录器1： JLINK V9  （ARM仿真器）        //下面标签上有2根橙色直划线
+   。硬件烧录器2： 同一台PC
+   。硬件连线： 板1的swd接口  -- Jlink V -- PC
+                      板1的typeC接口  -- 同一台PC
+
+   。PC烧录软件： firmware_updater.exe   （Ommo Hardware Test App）
+   。烧录安装软件1： _AWork55_nrf52840\_bootloader_all\_tool\_firmware_updater_v2.1.9_internal.msi 
+   。烧录安装软件2： _AWork55_nrf52840\bootloader_all\_newtool\nrf-command-line-tools-10.23.2-x64-ok.exe
+   。烧录安装软件3： _AWork55_nrf52840\bootloader_all\_newtool\nrfgostudiowin641212installer.msi   （或可忽略 -- 待验证）
+
+   。烧录固件文件1： 11763-adc_sampler_3ch-bootloader-PID48-v5004.hex
+   。烧录固件文件2： 11763-adc_sampler_3ch-PID48-v5004.zip
+ 
+   。烧录过程： 
+         .  运行firmware_updater.exe
+         .  点击菜单“settings Editor”\ common \ NRF JPROG Location 
+           设置为：    C:/Program Files/Nordic Semiconductor/nrf-command-line-tools/bin/nrfjprog.exe  （这个目录尽量不要变，安装时要安装在同一目录）
+         .  再点击菜单 Master Firmwre Updater \ 点击 Show Program Bootloader \ 导入Bootloader hex 和firmware （zip）
+         .  点击 program， 烧录成功会显示 "firmware updated completed successfully"
+
+   烧录注意点：
+   。jlink 和 typeC 都要插同一台电脑
+
+待整理：
+    1）。整个的烧录过程 -> txt 文件
+    2）。两个usb插电脑截图
+    3）。扫描hard device后的成功提示和错误提示
+    4）。setting里面的那些zip文件有什么作用，如何设置
+ 
+ 
+5. MCU芯片数据手册和参考手册 
+    目录：工程\datasheet\nRF52840_PS_v1.7.pdf
+ 
+
+6. 开发环境，下载地址
+
+   。开发环境：SES   （SEGGER EMBEDDED STUDIO）
+
+   //。下载和安装说明： 
+   //         
+
+   。导入工程过程：
+      直接双击 .emProject文件   
+
+    。设置bootloader地址
+        右键单击 project \options \ 左上角的下拉选Common（code上面）\code \linker \section placement macros \FLASH_START \设为0x00
+
+
+7. 插件和pack
+    //下载地址：
+    //安装说明： 
+
+8. 编译环境vscode，详细操作  (在win10电脑)
+    //。使用工具链编译，也可安装git直接在git中编译，后者更简单一点
+    //。编译环境建立参考： \网友_vscode_编译烧录_all
+    //。编写makefile文件
+    //。打开git，進入makefile所在目录，输入make，回车，即开始编译
+
+9. evk开发板资料  STM32F429ZI
+    //。下载地址
+    //。EVK-STM32F429ZI
+    //。evk原理图： \EVK-STM32F429ZI\MB1137_sch_evk.pdf
+
+
+10. 测试软件，测试过程
+
+   。PC测试软件：  \_AWork55_nrf52840\bootloader_all\_tool\cnctestapp_20231205_0995\CNCTestApplication.exe
+
+  。测试过程：  
+
+         .硬件连接1： 板1  -- typeC  -- 电脑
+         .硬件连接2： 板1  -- 耳机孔  -- ？   -- ？   -- ？  
+
+         .  运行 CNCTestApplication.exe
+         .  在Port处，选择com串口号 ，点击 open            
+         .   （待续）
+         .   
+
+
+
+
+
+
+=====================其他=============================
+
+ 其他特定工具 （如eq设置工具）
+
+
+
+
+

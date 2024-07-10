@@ -1,0 +1,99 @@
+以GS385为例：  stm32-ommocom
+
+
+1. 应用板子列表：
+   板1：  官方小evk板 + 3个sensor手板 ，MCU芯片完整型号： stm32c011F6U6TR  (M0 32BIT 48M 20脚 32K ROM 6K RAM)
+
+2. 最新固件软件和源程序： （本地）
+    板1 firmware：   D:\workspace18\prj1  （win10）
+    板1 源程序：      同 firmware
+ 
+3. 原理图
+   板1：  F:\_Awork_all\_Awork53_OMMO_COM_STM32\20231123-sch-STM32-GS385 OMMO COM-ok.pdf
+
+
+4. 烧录 hex文件： 硬件烧录器，PC烧录软件，烧录固件文件，烧录过程 （板1 stm32c011） 
+
+   。硬件烧录工具： 官方evk内置 st link     
+
+   。烧录软件1： PC烧录软件， STM32 ST-LINK Utility
+   。烧录软件1下载：https://www.st.com/en/development-tools/stm32cubeprog.html
+   。烧录软件2： keil 开发环境中烧录
+   。烧录软件3： cubeide开发环境中的工具链烧录 （ 调用 STM32 ST-LINK Utility）
+ 
+   。烧录固件文件： 略
+   。烧录过程：   略  （3种方法都很简单） 
+
+   烧录注意点：
+   。 cubeide里面需要先设置好工具链 （详见下面： “7. stm32cubeide使用详解”）
+ 
+5. MCU芯片数据手册和参考手册 
+    。工程\datasheet\stm32c011d6.pdf                                //STM32C01数据手册
+    。工程\datasheet\RM0490-DM00781702_C0x1.pdf           //STM32C01参考手册  （寄存器说明）
+ 
+6. 开发环境，下载地址
+   。开发环境1： MX + KEIL
+   。开发环境2： MX + CUBEIDE   （生成的hex大小有时比keil小一半）
+
+   。开发环境下载地址： stm32和keil官网
+      https://www.st.com/en/development-tools/stm32cubeide.html
+      https://www.st.com/en/development-tools/stm32cubemx.html
+      https://www.stmcu.com.cn/ecosystem/Cube/Cube-introduction?utm_source=baidu&utm_medium=cpc&utm_campaign=STM32Cube&utm_term=stm32%20cubemx
+
+   。KEIL 的pack
+     下载地址：  stm32和keil官网，百度
+                      https://www.keil.arm.com/devices/
+      pack安装方法1： 直接点击pack，安装到该版keil的pack目录
+      pack安装方法2： 先打开keil，在keil 中安装pack 
+
+7. MX使用详解 
+     1). 最好使用LL库
+
+7. stm32cubeide使用详解 
+
+     1). STM32CUBEIDE内部调用STM32CUBEPROGRAMMER工具链，下面的设置可用  （其中带 -s 0x8000000 ，烧录后马上运行）
+          C:\Program Files\STMicroelectronics\STM32Cube\STM32CubeProgrammer\bin\STM32_Programmer_CLI.exe
+
+          ${workspace_loc:/prj1/Release}
+
+          -c port=swd -w  prj1.elf #L
+          -c port=swd -w  prj1.hex  -s 0x8000000 #L
+
+    2). clubide生成hex文件
+        右键project\属性\c/c++ Build \ Settings \ MCU Post build outputs 
+
+8. evk开发板资料 stm32c011
+    。evk资料：  F:\_Awork_all\_Awork53_OMMO_COM_STM32\EVK-STM32C0116-DK
+    。下载地址： 略
+    。evk原理图：F:\_Awork_all\_Awork53_OMMO_COM_STM32\EVK-STM32C0116-DK\en.mb1684-c011f6-b01-schematic.pdf
+
+
+//10. 测试软件，测试过程
+
+   。PC测试软件：  ?
+
+  。测试过程：  
+
+         .硬件连接1： 板1  -- typeC  -- 电脑
+         .硬件连接2： 板1  -- 耳机孔  -- ？   -- ？   -- ？  
+
+         .  运行 CNCTestApplication.exe
+         .  在Port处，选择com串口号 ，点击 open            
+         .   （待续）
+         .   
+ 
+
+
+
+ 
+
+
+
+
+=====================其他=============================
+
+ 其他特定工具 （如eq设置工具）
+
+
+
+ 

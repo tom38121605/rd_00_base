@@ -1,0 +1,63 @@
+
+
+
+===============stmcube32ide 下载和安装======================
+
+https://blog.csdn.net/qq_49053936/article/details/134628947       //教程
+https://www.st.com/zh/development-tools/stm32cubeide.html     //下载地址，选windows版本
+
+
+
+=====================STM32CUBEide====================================
+
+
+1. 打开MX生成的cubeide工程
+    。双击.ico文件
+    。选择cubeide目录，一般选.ico的上两级目录
+    。菜单file\import\General\Existing Projects ...
+    。Select root directory\选择.ico的上一级目录
+    。下面不选copy到本目录\点击完成，即ok
+
+2. 添加include目录
+    。点击左上角列表上的工程名\右键\Properities
+    。c/c++  General\ paths and Symbols
+    。点击“add”，选择“is workspace ... ”，点击"workspace"添加相应的include目录
+    。点击apply and close即ok
+
+3. 生成hex目录
+   右键project\属性\c/c++ Build \ Settings \ MCU Post build outputs 
+
+4. STM32CUBEIDE内部调用STM32CUBEPROGRAMMER工具链，下面的设置可用  （其中带 -s 0x8000000 ，烧录后马上运行）
+
+     C:\Program Files\STMicroelectronics\STM32Cube\STM32CubeProgrammer\bin\STM32_Programmer_CLI.exe
+
+     ${workspace_loc:/prj1/Release}
+
+     -c port=swd -w  prj1.elf #L
+     -c port=swd -w  prj1.hex  -s 0x8000000 #L
+
+5.  cubeide 编译时 问题
+
+分析：可能是中文名目录， 或目录名称太长
+问题：
+cannot open linker script file 
+D:\stm32_bootload_￡¤?????\￡¤?????01-flash￡¤??￡¤??-??????￡¤??-led-sensor-??????-ok\ommocom\STM32C011F6UX_FLASH.ld: 
+No such file or directory	
+答： 拷贝到 D:\test1\ommocom ， 即编译ok （说明短的英文名目录ok）
+答： 再拷贝到D:\test中\ommocom ， 又出现上面的编译错误   （说明短的中文名目录也err）
+
+
+
+补充1. STM32CUBE或不能按扇区擦除  -- 待验证
+
+
+
+
+
+
+
+
+
+
+
+

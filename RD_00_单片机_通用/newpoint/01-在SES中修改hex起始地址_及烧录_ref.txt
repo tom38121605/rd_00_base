@@ -1,0 +1,28 @@
+
+
+注意：在ommo的nrf52的工程中， “project \options\code\Linker\linker: ” 项要设置成GNU (而不是SEGGER)
+
+----  SES中烧录步骤 --------------
+
+  。ses修改hex烧录地址： 右键单击 project \options \ 左上角的下拉选Common（code上面）\code \linker \section placement macros \FLASH_START \设为0x00
+
+  。设置jlink烧录: 右键单击 project \options\code
+     .\Linker\linker:                                              SEGGER
+
+  。设置jlink烧录: 右键单击 project \options\debug
+
+     . \debugger\Tartet conecction:                      JLink 
+     . \debugger\Device:                                      Nrf52833_xxAA
+     .\GDB Server\Type:                                       J-link
+      .\GDB Server\GDB Server command line:     "$(JLinkDir)/JLinkGDBServerCL" -device "$(DeviceName)" -silent
+     .\J-link\Host connection:                               USB
+     .\J-link\Target interface type:                        SWD
+     .\J-link\Speed:                                             4000KHz
+
+
+  。选择release编译： 
+     右键单击 project \options \ 左上角的下拉选release（code上面）\菜单build\build solution
+
+
+编译时间： 大约2分10秒
+
