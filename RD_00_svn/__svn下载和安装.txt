@@ -1,0 +1,44 @@
+
+
+一。在下面的网址下载svn， 如： TortoiseSVN-1.8.11.26392-x64-svn-1.8.13.msi
+
+   http://tortoisesvn.net/downloads
+
+
+二。右键\管理员安装\重新开关电脑
+
+
+三，把一个目录设置为svn库
+
+   1. 在d盘上建立一个目录 
+   2.  右键"d:\SVNKU" \ svn\create repository here      
+
+
+四。把上面的svn库，checkout 到另一个目录
+
+     1. 在e盘的test1里面，建立一个local目录
+
+     2. 右键 local目录\ svn checkout
+       。在url输入：  file:///D:/SVNKU
+        。确定，即ok
+
+
+五。常用操作
+
+   1.  svn delete:
+       svn\ delete\ clean\ update\ commit
+ 
+   2. svn add:
+       svn\ add\ commit
+
+   3. svn delete and add:
+       svn\ delete\ clean\  copy new files\ add\ commit
+
+   4. svn 比较两个文件
+       svn\show log\用ctrl同时选中两个版本\右键 compare revisions
+
+
+
+
+
+
