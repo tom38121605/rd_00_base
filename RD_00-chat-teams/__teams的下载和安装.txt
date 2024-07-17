@@ -1,0 +1,23 @@
+
+1. 在下面的网址下载teams的安装软件：  MSTeams-x64.msix
+    https://www.microsoft.com/zh-cn/microsoft-teams/download-app
+
+2. 再下载： MicrosoftEdgeWebview2Setup.exe
+
+3. 用管理员身份，安装上面两个软件
+
+4. 在 https://www.microsoft365.com/?auth=2， 用下面的用户登录 
+    name：##Chunrong.Zhao@ommo.onmicrosoft.com  ( homerun2~C )
+
+5. 在苹果手机上下载app： Authenticator
+    。然后验证上面的用户mm   （具体步骤待完善）
+
+6. 在iphone手机上下载app:  teams
+
+
+7. 用上面的用户在手机和电脑上登录
+
+
+
+
+
