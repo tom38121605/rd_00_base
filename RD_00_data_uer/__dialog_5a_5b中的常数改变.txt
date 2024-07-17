@@ -1,0 +1,16 @@
+
+--5a  £¨gs322£©      //3000 --> 9800,11200
+
+//#define RESP_RX_TO_FINAL_TX_DLY_UUS 3100  
+//#define RESP_RX_TO_FINAL_TX_DLY_UUS 9800
+#define RESP_RX_TO_FINAL_TX_DLY_UUS 11200
+
+--5b  £¨gs317£©  //500  --> 8800
+
+//#define RESP_TX_TO_FINAL_RX_DLY_UUS 500
+#define RESP_TX_TO_FINAL_RX_DLY_UUS 8800   //--debuglog
+
+
+
+
+
