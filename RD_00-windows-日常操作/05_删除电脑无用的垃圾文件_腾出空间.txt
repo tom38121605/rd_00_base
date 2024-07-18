@@ -76,26 +76,20 @@ rem userprofile                C:\Users\GS
 
 重点关注：
      1.  %userprofile%\AppData\Local\Microsoft\vscode-cpptools\ipch
-     2.  %userprofile%\AppData\Roaming\Code\Service Worker\CacheStorage   
 
-VsCode是一款轻量级代码编辑器
+%userprofile%\.vscode：可达800M。 VsCode卸载拓展似乎不会删除硬盘上的文件 , 并且混有很多不用的
+%userprofile%\AppData\Local\Microsoft\vscode-cpptools\ipch ：用一段时间能达到4G ，关闭程序后可以直接删。 
+ 
 
-程序的安装目录：大约会占用350M
-%userprofile%\.vscode：可达800M。主要为：各个拓展。VsCode卸载拓展似乎不会删除硬盘上的文件，因此这个里面很大，并且混有很多不用的
-%userprofile%\AppData\Local\Microsoft\vscode-cpptools\ipch ：用一段时间能达到4G 与C(++)语言有关，关闭程序后可以直接删。不使用VsCode编辑C/C++的用户可能无此痛苦
+4. Romaing\Code中，到底哪些可以定期删除
+%userprofile%\AppData\Roaming\Code：2G+ 存放用户数据、配置等。 
+  （可以通过启动时添加–user-data-dir NewDir 来使其他目录作为配置）
 
-
-%userprofile%\AppData\Roaming\Code：2G+ 存放用户数据、配置等。 （可以通过启动时添加–user-data-dir NewDir 来使其他目录作为配置）
-可以定期删除的地方，有3. ipch（可完全删除） 和 4. Romaing（不可完全删除）
-
-4. Romaing中，到底哪些可以定期删除
-对%userprofile%\AppData\Roaming\Code中的文件进行更进一步地分析，我得到了如下结论：
-
+重点关注：
 %userprofile%\AppData\Roaming\Code\Service Worker\CacheStorage   1G  主要位于这里
 %userprofile%\AppData\Roaming\Code\CachedExtensionVSIXs   用一段时间可以达到500M   可以直接删
 %userprofile%\AppData\Roaming\Code\User          600M
 %userprofile%\AppData\Roaming\Code\User\workspaceStorage  500M  每打开一个工作目录就会在这个目录下生成一个文件夹
-%userprofile%\AppData\Roaming\Code\Service Worker 1G   
 
 %userprofile%\AppData\Roaming\Code\Cache       很快几十M
 %userprofile%\AppData\Roaming\Code\CachedData  很快几十M
