@@ -1,7 +1,8 @@
+注意1： 所有要删除的目录或文件，先打上nouse标志，并记下相关目录路径到list.txt. 开关机稳定运行一个星期后，再移到nouse目录。三个月后，电脑还是正常运行，则可以正式删除。
 
-注意： 对于有点没有把握的文件，做备份后再清除
+注意2： 对于有点没有把握的文件，做备份后再清除
 
-C:\Users\GS\STM32Cube\Repository
+C:\Users\GS\STM32Cube\Repository       //ok
 
 1. 运 “__win7清除系统垃圾.bat”
 
@@ -38,7 +39,7 @@ rem userprofile                C:\Users\GS
    C:\Users\user\Documents\Tencent Files
 
 
-3. 删除微信的无用过期文件
+3. 删除微信的无用过期文件                //ok
    C:\Users\user\Documents\WeChat Files
    C:\Users\user\Documents\WeChat Files\wxid_h1fjtkxvlnkj21\FileStorage
    C:\Users\user\Documents\WeChat Files\wxid_h1fjtkxvlnkj21\FileStorage\Video
@@ -47,14 +48,14 @@ rem userprofile                C:\Users\GS
    C:\Users\user\Documents\WeChat Files\wxid_h1fjtkxvlnkj21\FileStorage\Cache
 
 
-5.  目录AppData里有Local，保存临时文件，可删一些熟悉软件的文件
+5.  目录AppData里有Local，保存临时文件，可删一些熟悉软件的文件              //尽量不轻易去删除   
     还有，AppData\Local\Temp 目录下的所有临时文件都可以随时删除
 
     C:\Users\user\AppData\Local\Temp       //ok  ？（已删除2024.07.18 -- 验证一段时间）  （1G多）
   
    
 
-5.  目录AppData里有Roaming文件夹，保存临时文件，可删一些熟悉软件的文件
+5.  目录AppData里有Roaming文件夹，保存临时文件，可删一些熟悉软件的文件   //尽量不轻易去删除
 
     SogouExplorer     //可以删除
     youku                   //可以删除
