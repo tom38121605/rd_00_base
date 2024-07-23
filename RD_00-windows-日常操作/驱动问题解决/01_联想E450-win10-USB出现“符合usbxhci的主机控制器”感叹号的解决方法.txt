@@ -1,0 +1,20 @@
+
+1. 问题现象：
+
+    。右击此电脑-管理-设备管理器-发现通用串行总线控制器里出现了“intel（R）USB3.1可扩展主机控制器-1.10（Microsoft）”感叹号的情况
+    。这时重新安装了云桌面的agenttools，重启也不好使。我又用驱动总裁、驱动精灵、驱动人生、360驱动大师等进行驱动也不好使。
+        系统升级补丁也不好使。于是我又将intel（R）USB3.1可扩展主机控制器-1.10（Microsoft）驱动给卸载，重启后出现“符合usbxhci的主机控制器”感叹号的新情况。
+    。在电脑本机扫描安装列表中的usbxhci驱动 ，也会出现“符合usbxhci的主机控制器”感叹号的新情况。
+   
+解决1：
+     。在百度里无意输入usb xhci， 回车，果然找到了一个帖子，是改注册表的
+     。win + r  -- regedit  
+     。先备份注册表 ： 菜单 file -- 导出    
+     。HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{36fc9e60-c465-11cf-8056-444553540000}，找到UpperFilters和LowerFilters这两项将其删除。
+     。重启电脑
+     。发现usb还是不能用，黄色感叹号还是跟以前一样，
+
+解决2： 把windows 用，从安全模式再重启一下
+            突然usb可以用了，usb驱动的黄色感叹消失，显示正常的usb3.0的驱动
+
+
