@@ -12,9 +12,32 @@
      。先备份注册表 ： 菜单 file -- 导出    
      。HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{36fc9e60-c465-11cf-8056-444553540000}，找到UpperFilters和LowerFilters这两项将其删除。
      。重启电脑
-     。发现usb还是不能用，黄色感叹号还是跟以前一样，
+     。发现usb还是不能用，黄色感叹号还是跟以前一样
+     。（再导入以前备份的注册表）
 
-解决2： 把windows 用，从安全模式再重启一下
-            突然usb可以用了，usb驱动的黄色感叹消失，显示正常的usb3.0的驱动
+解决2：
+     。 把windows 用，从安全模式再重启一下
+     。（再导入以前备份的注册表）
+     。 突然usb可以用了，usb驱动的黄色感叹消失，显示正常的usb3.0的驱动
 
 
+==================参考=================
+
+ 
+开机进入BIOS发现鼠标可以用，说明USB硬件没问题，是驱动问题，找联想售后也搞不定。
+
+
+注册表中查找UpperFilters或者LowerFilters，将其删除，回到设备管理器，把有感叹号的设备卸载了重启电脑搞定! 
+后来发现是安装抓包软件USBlyzer v2.2导致的
+
+
+
+==================参考2=====这或是外面插入的usb设备============
+
+
+usb composite device打着黄色的感叹号，说明有USB设备驱动存在故障。
+usb composite device打着黄色的感叹号解决方法：
+1、在“运行”中输入“regedit”打开注册表，找到“HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSEt\Enum\USB”，在“USB”上点右键选“使用权限”再选“Everyone”将完全控制打勾以便接下来的修改；
+2、展开“Vid_22b8&pid_4901”，点击“5&3a19f350&0&1”，修改“Service”的数据“usbccgp”为“usbhub”；同样的，点击“5&3a19f350&0&2”，修改“Service”的数据 “usbccgp”为“usbhub”；
+3、找到“5&3a19f350&0&2”下的子目录“Control”，单击，将“ActiveService”的数据“usbccgp”也修改为“usbhub”；
+4、将所有程序都关关掉，传输线也拔掉，过个5秒后再插回去，接着开启PST就会发现计算机开始检测硬件，最后请检查管理员该会多出Motorola USB Device，底下有三个装置，这样就可以了。
