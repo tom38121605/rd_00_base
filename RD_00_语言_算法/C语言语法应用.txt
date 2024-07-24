@@ -1,0 +1,26 @@
+
+
+C语言宏定义后面的UL等
+
+   U表示unsigned无符号，例如100U表示这是一个无符号整数。
+   L表示long长整数，例如100L表示这是一个长整数。
+   UL表示unsigned long无符号长整数，例如100UL表示这是一个无符号长整数。
+
+   在C语言中，除了U、L、UL等后缀外，还有其他一些后缀可以用来指定数据类型：
+
+   F或f：表示该常数是float类型的浮点数。例如，#define PI 3.14F，这里的PI就是一个float类型的浮点数。
+   L或l：当用于浮点数时，表示该常数是long double类型的浮点数。例如，#define PI 3.14L，这里的PI就是一个long double类型的浮点数。
+   如果浮点数没有后缀，则默认为double类型。
+
+
+
+--- C语言的连接符，连接两个字符串，组成一个新变量
+
+   #define NRFX_CONCAT_2_(p1, p2)         p1 ## p2
+
+
+   #define NRFX_CONCAT_3_(p1, p2, p3)    p1 ## p2 ## p3
+
+
+
+
