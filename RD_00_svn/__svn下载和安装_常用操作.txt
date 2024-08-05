@@ -37,6 +37,13 @@
    4. svn 比较两个文件
        svn\show log\用ctrl同时选中两个版本\右键 compare revisions
 
+   5. 如何查看当前的目录如work3的svn地址 （属于哪个svn库）
+      答：  右键 work3 -- 属性  -- Subversion  ， 可以看svn地址如下：
+              https://pl3.projectlocker.com/Global_Silicon/Amber/svn/
+
+
+
+
 
 
 
