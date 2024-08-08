@@ -1,0 +1,104 @@
+
+
+
+
+//nus 为要延时的 us 数.                       
+void delay_us(u32 nus)
+{     
+   u32 temp;     
+
+    fac_us = 48M/1M;
+   
+   SysTick->LOAD=nus*fac_us; //时间加载       
+   SysTick->VAL=0x00;         //清空计数器
+   SysTick->CTRL=0x01 ;       //开始倒数   
+   
+   do
+   {
+      temp=SysTick->CTRL;
+   }
+   while((temp&0x01)&&!(temp&(1<<16)));//等待时间到达
+   
+   SysTick->CTRL=0x00;        //关闭计数器
+   SysTick->VAL =0X00;        //清空计数器   
+}
+
+
+
+//延时 nms
+//注意 nms 的范围
+//SysTick->LOAD 为 24 位寄存器,所以,最大延时为:
+//nms<=0xffffff*8*1000/SYSCLK
+//SYSCLK 单位为 Hz,nms 单位为 ms
+//对 72M 条件下,nms<=1864 
+void delay_ms(u16 nms)
+{           
+   u32 temp;   
+   SysTick->LOAD=(u32)nms*fac_ms;//时间加载(SysTick->LOAD 为 24bit)
+   SysTick->VAL =0x00;            //清空计数器
+   SysTick->CTRL=0x01 ;           //开始倒数
+   
+   do
+   {
+      temp=SysTick->CTRL;
+   }
+   while((temp&0x01)&&!(temp&(1<<16)));//等待时间到达
+   
+   SysTick->CTRL=0x00;        //关闭计数器
+   SysTick->VAL =0X00;        //清空计数器       
+}
+
+
+
+=======================systick 延时1ms===推导过程=======================
+
+Systick初始化过程：
+        LOAD  =  ((HCLKFrequency / Ticks) - 1 );     //如 1ms:  48M / 1000 
+        CTRL.2,0=1,1 ，时钟源选AHB（48M），使能systick
+
+Systick中断触发过程：
+     CTRL.2=1 使能systick  --  （LOAD 的值赋给 -- VAL）  --  VAL不断减1（每个clk都减1）  --   直到VAL=0 -- 出现中断标志 CRTL.16=1 
+
+main()
+
+    LL_Init1msTick(48000000);
+         LL_InitTick(48M, 1000);
+
+
+--------------------
+ 
+功能：设置systick为1ms延时
+参数:  48M, 1000
+ LL_InitTick( HCLKFrequency,  Ticks)
+ 
+     SysTick->LOAD  =  ((HCLKFrequency / Ticks) - 1 );                                      //1ms
+     SysTick->VAL   = 0 ;                                                                                 //清零计数器                                                          
+     SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk |  *_CTRL_ENABLE_Msk;    //CTRL.2,0=1,1 ，时钟源选AHB（48M），使能systick
+ 
+
+--------------
+
+
+//ms延时函数 0 --- 1ms， 1 -- 2ms， 2 -- 3ms
+LL_mDelay( Delay)
+ 
+      uint32_t   tmp = SysTick->CTRL;     
+      uint32_t   tmpDelay;  
+ 
+      ((void)tmp);
+      tmpDelay = Delay;
+             
+      if (tmpDelay < LL_MAX_DELAY)     //设置延时时间 + 1ms   
+            tmpDelay ++;
+
+     //SysTick->VAL   = 0 ;        //清零计数器     
+    
+     while (tmpDelay  != 0)
+   
+            if ((SysTick->CTRL &  SysTick_CTRL_COUNTFLAG_Msk) != 0)             
+                  tmpDelay --;
+
+
+
+
+

@@ -1,0 +1,100 @@
+
+
+void LL_mDelay(uint32_t Delay)
+{
+   __IO uint32_t  tmp = SysTick->CTRL;  
+   uint32_t tmpDelay; 
+ 
+   ((void)tmp);
+   
+   tmpDelay  = Delay;
+ 
+   if (tmpDelay  < LL_MAX_DELAY)       //LL_mDelay(1) 延时2ms，是因为这下面的 ++操作
+   {
+      tmpDelay ++;
+   }
+
+   while (tmpDelay  != 0U)
+   {
+      if ((SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk) != 0U)
+      {
+         tmpDelay --;
+      }
+   }
+}
+ 
+
+main
+
+      while (1)
+      {    
+
+            LL_mDelay(100);
+
+            LL_GPIO_TogglePin( LED_GPIO_Port, LED_Pin);
+
+      }
+
+
+
+===================时间测试列表=======ms=====================
+
+
+led toggle   --   0.256us   
+
+0     --   1 ms
+1     --   2 ms
+2     --  3 ms
+
+
+
+=======================systick 延时1ms===推导过程=======================
+
+Systick初始化过程：
+        LOAD  =  ((HCLKFrequency / Ticks) - 1 );     //如 1ms:  48M / 1000 
+        CTRL.2,0=1,1 ，时钟源选AHB（48M），使能systick
+
+Systick中断触发过程：
+     CTRL.2=1 使能systick  --  （LOAD 的值赋给 -- VAL）  --  VAL不断减1（每个clk都减1）  --   直到VAL=0 -- 出现中断标志 CRTL.16=1 
+
+main()
+
+    LL_Init1msTick(48000000);
+         LL_InitTick(48M, 1000);
+
+
+--------------------
+ 
+功能：设置systick为1ms延时
+参数:  48M, 1000
+ LL_InitTick( HCLKFrequency,  Ticks)
+ 
+     SysTick->LOAD  =  ((HCLKFrequency / Ticks) - 1 );                                      //1ms
+     SysTick->VAL   = 0 ;                                                                                 //清零计数器                                                          
+     SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk |  *_CTRL_ENABLE_Msk;    //CTRL.2,0=1,1 ，时钟源选AHB（48M），使能systick
+ 
+
+--------------
+
+
+//ms延时函数 0 --- 1ms， 1 -- 2ms， 2 -- 3ms
+LL_mDelay( Delay)
+ 
+      uint32_t   tmp = SysTick->CTRL;     
+      uint32_t   tmpDelay;  
+ 
+      ((void)tmp);
+      tmpDelay = Delay;
+             
+      if (tmpDelay < LL_MAX_DELAY)     //设置延时时间 + 1ms   
+            tmpDelay ++;
+    
+      while (tmpDelay  != 0)
+   
+            if ((SysTick->CTRL &  SysTick_CTRL_COUNTFLAG_Msk) != 0)             
+                  tmpDelay --;
+
+
+
+
+
