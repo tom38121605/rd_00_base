@@ -46,6 +46,7 @@ rem userprofile                C:\Users\GS
    C:\Users\user\Documents\WeChat Files\wxid_h1fjtkxvlnkj21\FileStorage\Image
    C:\Users\user\Documents\WeChat Files\wxid_h1fjtkxvlnkj21\FileStorage\Sns
    C:\Users\user\Documents\WeChat Files\wxid_h1fjtkxvlnkj21\FileStorage\Cache
+   C:\Users\user\Documents\WeChat Files\wxid_h1fjtkxvlnkj21\FileStorage\MsgAttach
 
 
 5.  目录AppData里有Local，保存临时文件，可删一些熟悉软件的文件              //尽量不轻易去删除   
@@ -76,10 +77,9 @@ rem userprofile                C:\Users\GS
 --------------------------------------------------------------------------------------------------------------------------------
 
 重点关注：
-     1.  %userprofile%\AppData\Local\Microsoft\vscode-cpptools\ipch
+     1.  %userprofile%\AppData\Local\Microsoft\vscode-cpptools\ipch    //：用一段时间能达到4G ，关闭程序后可以直接删。 
 
 %userprofile%\.vscode：可达800M。 VsCode卸载拓展似乎不会删除硬盘上的文件 , 并且混有很多不用的
-%userprofile%\AppData\Local\Microsoft\vscode-cpptools\ipch ：用一段时间能达到4G ，关闭程序后可以直接删。 
  
 
 4. Romaing\Code中，到底哪些可以定期删除
