@@ -1,6 +1,6 @@
 
 
-C语言宏定义后面的UL等
+1. C语言宏定义后面的UL等
 
    U表示unsigned无符号，例如100U表示这是一个无符号整数。
    L表示long长整数，例如100L表示这是一个长整数。
@@ -14,7 +14,7 @@ C语言宏定义后面的UL等
 
 
 
---- C语言的连接符，连接两个字符串，组成一个新变量   //各部分都是字符串，最后结果是一个变量
+2. C语言的连接符##，连接两个字符串，组成一个新变量   //各部分都是字符串，最后结果是一个变量
 
    #define NRFX_CONCAT_2_(p1, p2)         p1 ## p2
 
@@ -22,17 +22,44 @@ C语言宏定义后面的UL等
    #define NRFX_CONCAT_3_(p1, p2, p3)    p1 ## p2 ## p3
 
 
-#define _NRF_DRV_UART_CREATE_UART(id)    NRF_DRV_UART_CREATE_UART_##id
+   示例： 
+   #define _NRF_DRV_UART_CREATE_UART(id)    NRF_DRV_UART_CREATE_UART_##id
 
-_NRF_DRV_UART_CREATE_UART(0)  -->    NRF_DRV_UART_CREATE_UART_0
+   _NRF_DRV_UART_CREATE_UART(0)  -->    NRF_DRV_UART_CREATE_UART_0
 
 
---- C语言的字符串化操作符# （把代码转化为字符串，并跟其他字符串连在一起）   //各部分是字符串，最后结果也是字符串
+3.  C语言的字符串化操作符# （把代码转化为字符串，并跟其他字符串连在一起）   //各部分是字符串，最后结果也是字符串
 
       #define MAKE_STR(s) ("321" # s "654\n")
 
       printf(MAKE_STR(hello world));
 
-     输出结果: 
+      输出结果: 
            321hello world654
 
+
+4. assert 断言
+
+    assert的作用是现计算表达式 expression ，如果其值为假（即为0），那么它先向stderr打印一条出错信息，然后通过调用 abort 来终止程序运行。
+
+      if(假设成立) 
+           程序正常运行； 
+      else 
+            报错&&终止程序！（避免由程序运行引起更大的错误）  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
