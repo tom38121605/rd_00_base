@@ -1,0 +1,100 @@
+
+===============stm32cubeide中的===== linker script file==============================
+
+是.ld文件
+
+
+_estack = ORIGIN(RAM) + LENGTH(RAM); /* end of "RAM" Ram type memory */
+
+_Min_Stack_Size = 0x400; /* required amount of stack */
+
+  ._user_heap_stack :
+  {
+    . = ALIGN(8);
+    PROVIDE ( end = . );
+    PROVIDE ( _end = . );
+    . = . + _Min_Heap_Size;
+    . = . + _Min_Stack_Size;
+    . = ALIGN(8);
+  } >RAM
+
+
+
+
+
+===============Keil中的===== linker script file==============================
+
+
+一般保存在“工程名.sct”中
+
+
+在Keil中定义链接脚本，通常是通过创建一个链接脚本文件（通常以.sct为扩展名），然后在Keil项目设置中指定这个文件。
+以下是一个简单的链接脚本示例，它定义了内存区域、堆栈设置以及段的映射。
+
+MEMORY
+{
+  FLASH (rx)      : ORIGIN = 0x08000000, LENGTH = 128K
+  SRAM (rwx)      : ORIGIN = 0x20000000, LENGTH = 20K
+}
+ 
+SECTIONS
+{
+  .text :
+  {
+    *(.text*);
+  } >FLASH
+ 
+  .rodata :
+  {
+    *(.rodata*);
+  } >FLASH
+ 
+  .data : 
+  {
+    *(.data*);
+  } >SRAM
+ 
+  .bss :
+  {
+    *(.bss*);
+  } >SRAM
+ 
+  .heap (NOLOAD) :
+  {
+    . = ALIGN(8);
+    __end_heap = .;
+    . = . + 0x200;   /* 设置堆大小为 512 字节 */
+    __FlashDesc = .;
+  } >SRAM
+ 
+  .stack (NOLOAD) :
+  {
+    . = ALIGN(8);
+    __end_stack = .;
+    . = . + 0x200;   /* 设置堆栈大小为 512 字节 */
+  } >SRAM
+}
+
+要在Keil中使用这个链接脚本：
+
+将上述代码保存为一个文件，比如 linker.sct。
+
+打开Keil，并加载你的项目。
+
+在Keil的项目设置中，导航到“Utilities” -> “Linker” -> “Linker & Locate” -> “Linker Script File”。
+
+在打开的对话框中，选择“Browse”并找到你刚才保存的 linker.sct 文件，然后保存项目设置。
+
+现在，当你编译项目时，Keil 会使用你指定的链接脚本来控制代码的链接过程。
+
+
+
+
+
+
+
+
+
+
+
+ 
