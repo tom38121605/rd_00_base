@@ -1,0 +1,35 @@
+
+
+1.  在keil中，定义结构体变量时，出现expected expression的错误提示
+分析1： 在switch下面的case中定义
+分析2： 在stm32cubeide中应不会出现（待验证），在keil中出现
+解决： 把结构体的定义放在所有case的上面定义
+
+      typedef struct
+      {
+          uint8_t tx_len;
+          uint8_t rx_len; 
+      } auto_mode_spi_trx;
+
+      switch (command)
+      {
+         //auto_mode_spi_trx   *spi_command_info;      //ok
+
+         case OMMOCOMM_AUTO_CMD_SPI_TXRX:           
+              auto_mode_spi_trx   *spi_command_info;    //err  //expected expression
+
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
