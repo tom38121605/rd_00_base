@@ -1,6 +1,6 @@
 
 
-1.  在keil中，定义结构体变量时，出现expected expression的错误提示
+1.  在keil中，定义结构体变量时，出现expected expression的错误提示   keil v5.39.0.0  stm32c011
 分析1： 在switch下面的case中定义
 分析2： 在stm32cubeide中应不会出现（待验证），在keil中出现
 解决： 把结构体的定义放在所有case的上面定义
@@ -14,13 +14,16 @@
       switch (command)
       {
          //auto_mode_spi_trx   *spi_command_info;      //ok
-
          case OMMOCOMM_AUTO_CMD_SPI_TXRX:           
               auto_mode_spi_trx   *spi_command_info;    //err  //expected expression
-
       }
 
-
+2. keil中编译出现提示： keil v5.39.0.0    stm32c011
+     warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  335 |   usart_rx_callback(usart1_rx_buffer, usart1_rx_buffer_len);
+分析： 主要是函数指针定义时，没有指向函数 usart_rx_callback_t usart_rx_callback = NULL;
+解决： 打开魔法棒，点击C/C++,在Mis Controls中加入下面的一句，重新编译，即ok
+          -Wno-deprecated-non-prototype
 
 
 
