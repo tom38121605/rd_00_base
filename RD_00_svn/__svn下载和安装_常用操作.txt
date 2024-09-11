@@ -42,6 +42,18 @@
               https://pl3.projectlocker.com/Global_Silicon/Amber/svn/
 
 
+六。用户密码管理
+
+    1.  修改客户端上的用户
+          右键点击一个工程 --  TortoiseSVN  -- Setting  --  Saved Data  --  右边的 Authentication data  --  点击 clear 按钮
+          --  弹出一个对话框，里面是你以前保存的SVN地址  -- 选中要清除的svn  -- 点  ok  --   再commit工程时， 会提示输入新的用户名和密码
+
+
+    2. 修改服务器端的用户
+        。 存储在仓库的conf目录下的passwd文件中。  （用文本文件打开）
+
+               [users]
+               oldusername = password
 
 
 
