@@ -48,6 +48,40 @@
             报错&&终止程序！（避免由程序运行引起更大的错误）  
 
 
+5. enum详解： 可以看作是一种特殊的数组，是常量组成的列表，而且这个常量只能是整数型
+
+示例1： （不推荐）
+
+   enum DAY
+   {
+      MON=1, TUE, WED, THU, FRI, SAT, SUN
+   };
+ 
+   int main()
+   {
+      enum DAY day;
+
+      day = WED;
+      printf("%d",day);     
+   }
+
+示例2： （推荐）
+
+   typedef enum 
+   {
+      MON=1, TUE, WED, THU, FRI, SAT, SUN
+   }DAY_t ;
+ 
+   int main()
+   {
+      DAY_t  day;
+
+      day = WED;
+      printf("%d",day);     
+   }
+
+
+
 
 
 
