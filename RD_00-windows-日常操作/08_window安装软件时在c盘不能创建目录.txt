@@ -1,0 +1,5 @@
+
+问题：在安装ni-visa 的驱动文件 ni-visa_24.8_online.exe 时， 提示下面的错误信息
+    An error occurred while attempting to create the directory: C:\Users\Public\Documents\National Instruments
+
+解决：  打开windows安全中心 -- 病毒和威胁防护设置 -- 管理设置  -- 把实时保护，云保护，篡改防护都设置为关闭
