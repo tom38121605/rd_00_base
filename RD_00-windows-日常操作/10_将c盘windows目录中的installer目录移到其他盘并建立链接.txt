@@ -1,0 +1,22 @@
+
+1、将 C:\windows\installer文件夹整体复制到其他空间较大的盘符中，我复制到了E盘下了
+
+2、先将c:\windows\installer文件夹改名，任意名，同意给管理员权限
+
+3、在win10的左下角搜索框找到cmd命令行，在找到的cmd命令行程序上点击右键，以管理员身份运行此程序
+
+4、在弹出的cmd运行窗口中输入以下命令：mklink /d c:\windows\installer e:\installer 并回车。上述命令的意思是我在c:windows目录下创建installer文件夹到e:\installer文件夹的符号连接；
+
+5、成功后是这样子：  会在c:windows多一个installer文件夹的快捷方式
+
+6、最后把改名后的那个C盘里的installer删除。
+
+C盘空间多了几十G，开心不？
+
+
+
+
+
+
+
+ 
