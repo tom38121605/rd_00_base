@@ -2,7 +2,22 @@
 
 注意2： 对于有点没有把握的文件，做备份后再清除
 
+
+
+
+------------下面常用----keep--------
+
+
+C:\Users\HP\AppData\Local\Temp\__nouse        （%temp%）
+
+
+C:\Users\HP\AppData\Roaming\Code\CachedExtensionVSIXs\__NOUSE
+
+
+C:\Users\HP\AppData\Local\Microsoft\vscode-cpptools\ipch-nouse   //5G    (已删除)
 C:\Users\GS\STM32Cube\Repository       //ok
+
+
 
 1. 运 “__win7清除系统垃圾.bat”
 
