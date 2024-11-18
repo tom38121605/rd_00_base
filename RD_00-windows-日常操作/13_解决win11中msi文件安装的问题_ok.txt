@@ -1,0 +1,11 @@
+
+1. win +r    --  services.msc   --  启动 “windows installer”
+2. 关闭防病毒软件的实时保护等
+3. 任务栏右键（或ctrl + shift + esc）  -- 打开任务管理器 -- 运行新任务  --  输入cmd  -- 选中管理员运行  -- mscexec /package  d:\01.msi
+
+
+
+
+
+
+ 
