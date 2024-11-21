@@ -50,37 +50,45 @@
 
 5. enum详解： 可以看作是一种特殊的数组，是常量组成的列表，而且这个常量只能是整数型
 
-示例1： （不推荐）
+      示例1： （不推荐）
 
-   enum DAY
-   {
-      MON=1, TUE, WED, THU, FRI, SAT, SUN
-   };
- 
-   int main()
-   {
-      enum DAY day;
+         enum DAY
+         {
+            MON=1, TUE, WED, THU, FRI, SAT, SUN
+         };
+       
+         int main()
+         {
+            enum DAY day;
 
-      day = WED;
-      printf("%d",day);     
-   }
+            day = WED;
+            printf("%d",day);     
+         }
 
-示例2： （推荐）
+      示例2： （推荐）
 
-   typedef enum 
-   {
-      MON=1, TUE, WED, THU, FRI, SAT, SUN
-   }DAY_t ;
- 
-   int main()
-   {
-      DAY_t  day;
+         typedef enum 
+         {
+            MON=1, TUE, WED, THU, FRI, SAT, SUN
+         }DAY_t ;
+       
+         int main()
+         {
+            DAY_t  day;
 
-      day = WED;
-      printf("%d",day);     
-   }
+            day = WED;
+            printf("%d",day);     
+         }
 
 
+
+6. C语言中定义case样的值
+
+      #define ADC_CARTES_REG_20_PGA_GAIN(x) ( \
+          (x) == 4 ? ADC_CARTES_REG_20_PGA_GAIN_4 : \
+          (x) == 8 ? ADC_CARTES_REG_20_PGA_GAIN_8 : \
+          ADC_CARTES_REG_20_PGA_GAIN_4                     /* other value: use the least gain*/ \
+      )
 
 
 
