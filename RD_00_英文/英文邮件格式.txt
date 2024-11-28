@@ -1,4 +1,6 @@
 
+Í£µç´ß·Ñ£º
+The building management ask for the electricity fees, He said there will cut the electricity supply tomorrow.
 
  We have come up with a new, simper design for the EAD circuit.  It appears to have an improved performance over the previous circuit. [EAD circuit(V2.0).pdf] We will be testing this at the lab soon, for both RI and CD.  In our own tests this works for detecting ESD and EFT events an...
 
