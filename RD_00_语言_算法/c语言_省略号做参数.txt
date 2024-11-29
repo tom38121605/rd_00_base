@@ -1,0 +1,102 @@
+
+头文件<stdarg.h>
+
+=========================
+
+
+#include <iostream.h>
+void fun(int a, ...)
+{
+　　int *temp = &a;
+　　temp++;
+　　for (int i = 0; i < a; ++i)
+　　{
+　　　　cout << *temp << endl;
+　　　　temp++;
+　　}
+}
+int main()
+{
+　　int a = 1;
+　　int b = 2;
+　　int c = 3;
+　　int d = 4;
+
+　　fun(4, a, b, c, d);
+
+　　system("pause");
+　　return 0;
+}
+
+Output::
+1
+2
+3
+4
+
+
+------------------------------------
+
+void TestFun(char* pszDest, int DestLen, const char* pszFormat, ...)
+{
+va_list args;
+va_start(args, pszFormat); //一定要“...”之前的那个参数
+_vsnprintf(pszDest, DestLen, pszFormat, args);
+va_end(args);
+}
+
+
+----
+
+
+#include <stdio.h>
+#include <stdarg.h>
+ 
+void my_printf(const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+    vprintf(format, args);
+    va_end(args);
+}
+ 
+int main() {
+    my_printf("Hello, %s!\n", "world");
+    return 0;
+}
+
+============================================================================
+
+我们来实现average函数作为一个例子：
+
+#define _INTSIZEOF(n)   ( (sizeof(n) + sizeof(int) - 1) & ~(sizeof(int) - 1) )
+
+int average ( int n, ... )
+{
+         int sum = 0, c = 0;
+         int *p = &n;
+         if ( n < 0 ) return 0;
+         while ( *p >= 0 )
+         {
+                   sum += *p;
+                   c++;
+                   ( char * ) p += _INTSIZEOF(int);
+         };
+         return sum/c;
+}
+
+先定义一个va_list类型的变量，然后用宏va_start给他赋初值，prev_param用省略号前的参数名代替。然后用宏va_arg来挨个取得参数的值，参数的类型在type中指定。最后用宏va_end释放变量。
+
+int average ( int n, ... )
+{
+         int sum = n, count = 1, p;
+         va_list arg_ptr;
+         if ( n < 0 ) return 0;
+         va_start( arg_ptr, n );
+         while( ( p = va_arg( arg_ptr, int ) ) >= 0 )
+         {
+              sum += p;
+              count++;
+         }
+         va_end( arg_ptr );
+         return sum/count;
+}
