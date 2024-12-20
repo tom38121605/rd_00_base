@@ -6,3 +6,9 @@
 ?    。访问共享文件夹?：在另一台电脑上，打开资源管理器，在地址栏中输入共享路径（例如\\电脑名称\SharedFolder），按回车后即可访问共享文件夹。
 
   经测试：有的电脑只有c盘的c:\users目录可以实现共享:   \\LENOVO-PC\Users
+
+
+\\LAPTOP-1GNAF76B\Users
+
+\\HP-PC\Users
+\\LENOVO-PC\Users
