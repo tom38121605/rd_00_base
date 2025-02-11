@@ -1,0 +1,14 @@
+
+
+
+常用的5个命令 ipconfig、Ping、ARP、Tracert、Route：
+
+ping www.baidu.com
+ping www.baidu.com -t
+
+ipconfig
+
+arp -a
+
+Route
+
