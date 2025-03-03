@@ -91,6 +91,23 @@
       )
 
 
+7.  用COUNTOF计算结构数组的元素个数
+
+    I3C_CCCTypeDef   CCCList[] =
+    {
+      Target Addr    CCC Value    CCC data pointer     CCC size         Direction       
+
+       { 32,          8D,          {NULL,                  6},             1<<16 },
+        { 32,          8E,          {NULL,                  1},             1<<16 },
+        { 32,          8F,          {NULL,                  1},             1<<16 },
+        { 32,          8B,          {NULL,                  2},             1<<16 },
+        { 32,          8C,          {NULL,                  2},             1<<16 },
+        { 32,          90,          {NULL,                  2},             1<<16 },
+    };
+
+    #define COUNTOF( BUFF )   (  sizeof( BUFF ) / sizeof(*(BUFF))  )
+
+   COUNTOF( CCCList)；
 
 
 
