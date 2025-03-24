@@ -1,0 +1,41 @@
+
+
+When testing the ASIC at 12.5MHz, encountered an issue and terminated the communication when getting the direct command.
+When testing the ASIC at 12.5MHz£¬can pass the ENTDAA, encountered an issue and terminated the communication when getting the direct command.
+
+Currently, this program is mainly used to test the functionality of the get/set direct command at 12.5 MHz. MX_I3C1_Init has been moved to a later part. Setting the reg1e via I2C is an auxiliary function.
+
+The program I'm using now is the same one that I sent to you yesterday. There have been no modifications made to it.
+
+// I have used the shielded cables and twisted the GND around the SCL and SDA separately.
+
+I used shielded cable today, and shortened the SDA and SCL wires to 5CM to test the ASIC target at 12.5MHz. still encountered the issue when getting the direct command.
+
+When testing the ASIC at 12.5MHz, encountered an issue and terminated the communication when getting the direct command.
+
+Refer the  example "I3C_Controller_Direct_Command_Polling" in the examples in STM32CubeMX.
+ 
+The above diagram was tested by using two STM32H503 boards at 12.5 MHz.  (STM32H503 controller -- STM32H503 target). 
+
+//The above diagrams were tested on the ASIC target to get/set the direct command at 12.5MHz with the new duty parameter 0x0059040e. 
+The above diagram were tested on the ASIC target to get/set the direct command at 12.5MHz with the new duty parameter. 
+ 
+
+
+The new duty setting as followings:
+  LL_I3C_SetMode(I3C1, LL_I3C_MODE_CONTROLLER);
+  LL_I3C_SetDataHoldTime(I3C1, LL_I3C_SDA_HOLD_TIME_1_5);
+  LL_I3C_SetControllerActivityState(I3C1, LL_I3C_OWN_ACTIVITY_STATE_3);
+
+  LL_I3C_ConfigClockWaveForm(I3C1, 0x0059040e);            
+  LL_I3C_SetCtrlBusCharacteristic(I3C1, 0x103203f8);
+  LL_I3C_DisableHJAck(I3C1);
+
+
+
+
+
+
+
+
+
