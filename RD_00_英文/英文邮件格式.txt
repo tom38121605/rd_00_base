@@ -1,8 +1,9 @@
 
 1. Please find the attached the test report of the SIU 11952 boards,thanks.
 
+Please find the attached figure of the starting adc and reading the xyzt data ,thanks.
+Please check the attached figure for the ADC startup and xyzt data readout. Thanks.
 
-Ô±¹¤leave
 
 Effective today, AAA is no longer with COMP. We thank him for his work and wish him all the best moving forward.
 
