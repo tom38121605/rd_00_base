@@ -26,6 +26,13 @@
           -Wno-deprecated-non-prototype
 
 
+3.  keilc中把寄存器地址赋值给u32变量
+
+错误：
+        Node_GPDMA1_Channel0.LinkRegisters[3] = USART1->RDR;  
+
+正确：
+        Node_GPDMA1_Channel0.LinkRegisters[3] = (uint32_t)&USART1->RDR;  
 
 
 
