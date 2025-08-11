@@ -1,0 +1,13 @@
+
+
+测试条件： chrome 浏览器
+
+1.  把clickup中的文档，以pdf格式导出来
+
+    。打开clickup中的文档:  https://app.clickup.com/12600515/v/dc/c0h63-21991/c0h63-22871
+    。点击右上角工具按钮的share
+    。再点击下面的导出按钮 （文件夹图标加向上箭头）
+    。在下面有pdf选项，点击pdf，导出pdf文件
+    。ok
+ 
+
