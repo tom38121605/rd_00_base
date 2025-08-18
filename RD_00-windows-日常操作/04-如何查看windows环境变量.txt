@@ -4,7 +4,7 @@
 
 
    。最好在下面的系统变量添加  （上面的是单一用户变量），如：
-      变量名： BRAINLAB PATH
+      变量名： BRAINLAB_PATH
       变量值： c:\wakespace\folder
 
 
