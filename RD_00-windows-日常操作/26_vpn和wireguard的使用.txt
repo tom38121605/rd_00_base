@@ -1,0 +1,38 @@
+
+
+一。letsVPN的使用说明
+
+1. 下载网址__   （待完成）
+
+2. 输入注册名__ （待完成）
+
+3.  连接vpn：
+    点击“首页” --  在软件中间点击 “开启快连”
+
+4. 续费
+   点击左下角的续费会员  -- 支付宝扫码  -- 选择续费一年  -- ok
+
+
+
+
+二。wireguard的使用说明：
+
+1. 在官网下载  （国内有时上不了，先用其他vpn下载）
+   https://download.wireguard.com/windows-client/
+       wireguard-amd64-0.5.3.msi        //64位windows
+       wireguard-x86-0.5.3.msi             //32位windows  （已验证）
+
+2. 运行wireguard -- 点击左下角“新建隧道”的下拉箭头 -- 从文件名导入隧道  -- d:\name01.conf  
+
+3. 在屏幕中间点击“连接”， ok
+
+
+
+
+
+
+
+
+
+
+
