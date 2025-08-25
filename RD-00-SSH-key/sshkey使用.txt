@@ -1,0 +1,12 @@
+
+
+
+1。生成SSH KEY  
+     。fork菜单\config SSH keys\点击左下角的+号，输入email\点击“Generate",即生成public key
+     。打开github网页，
+           .右上角点击你的头像，在弹出的侧边栏里面点击 Settings
+          .在 Settings 页面，点击左边的“SSH and GPG keys”，然后点击右边的“New SSH Key”。
+          .复制fork里面的public key 到github，即ok 
+
+2。同一个用户，多台电脑登陆同一个geihub库
+    。可在每台电脑各生成一个ssh key， 然后依次添加到 github网站上去
