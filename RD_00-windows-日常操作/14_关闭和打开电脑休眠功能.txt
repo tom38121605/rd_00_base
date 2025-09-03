@@ -1,6 +1,0 @@
-
-1. 用管理员运行cmd
-2. powercfg -h off ，关闭休眠功能，删除hiberfil.sys文件
-3. powercfg -h on，打开休眠功能 
-
- 
