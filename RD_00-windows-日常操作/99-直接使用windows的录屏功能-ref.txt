@@ -1,0 +1,17 @@
+
+easy
+
+
+1.  win + shife + R
+2. 直接用鼠标选择录制屏幕,
+3. 点击start，开始录制
+4. 点击停止按钮，停止录制
+5. 视频存放目录： C:\Users\TEST\Videos\Screen Recordings     //就在下载的旁边
+
+
+
+
+
+
+
+
