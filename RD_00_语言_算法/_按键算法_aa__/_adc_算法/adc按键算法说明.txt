@@ -1,0 +1,463 @@
+
+
+说明1：   flg_downlongkey3本身就相当于flg_keyup
+
+         //key3 tone
+         if (flg_downlongkey3==0)    //flg_downlongkey3本身就相当于flg_keyup (只有keyup=1后，flg_downlongkey3才能恢复为0)
+         {   
+            
+            if (flg_keydown3)  //如果在这里加一个flg_keyup==1防止长按后连按，则逻辑上更标准一些 （不需要，看上面）
+            {
+               ikeynum3++;   
+               
+               if(ikeynum3>=LONGKEYCOUNT2)
+                  {ikeyvalue3 =2; flg_keycome3=1; flg_downlongkey3=1;}  //如判断连按，这里需加一句flg_keyup=0 （不需要，看上面）
+
+            }          
+            else
+            {
+               
+               //if (ikeynum3<1) 
+               if (ikeynum3<TONEKEYCOUNT1) 
+                  {ikeyvalue3 =0; }
+               
+               else if( (ikeynum3>=TONEKEYCOUNT1) && (ikeynum3<LONGKEYCOUNT2) )
+                   {ikeyvalue3 =1; flg_keycome3=1;}  
+                   
+               //else          
+               else if(ikeynum3>=LONGKEYCOUNT2)               
+                   {ikeyvalue3 =2; flg_keycome3=1;}  
+                   
+               ikeynum3=0;    
+                   
+            } 
+            
+         }
+         else
+         {
+
+            if (flg_keydown3==0) 
+            {                 
+               flg_downlongkey3=0; 
+               ikeynum3=0; ikeyvalue3=0;    
+            }  
+            else
+               ;//ikeynum3=0;
+            
+         }   
+
+
+
+======================
+
+adc按键校准的原因和方法：
+
+因为标准供电是3.3v， C键的adc电压测量为2.8v
+但如果因线路影响，供电变成3.0v，C键的电压测量就变成了2.8*0.9 = 2.52v
+所以要進行校准
+
+校准的方法是，3.3V取得的基准电压的 BAND_3300 是1526，如果2.8V测的的 BAND_value 是1695
+则:
+   adc_key = adc * BAND_value / BAND_3300 
+
+
+    具体如下：
+    iadc =   Bandgap_Voltage * AIN_value  / BAND_value ;                  //mv        
+    iadc_key   =  Bandgap_Voltage * AIN_value  / BAND_3300             //mv     
+
+
+
+3.3v电源时各点电压值： (5个按键，以这组为准)   --ok
+
+  VDD： 3316
+
+  L  820          
+  C  1320         
+  D  2320        
+  R  2710         
+  U  1900
+  N  3316      
+
+
+====================adc按键总流程===========================
+
+
+main (void)
+
+   while(1) 
+
+      //get adc
+      getadcvalue();         
+
+      //adc key scan
+      adckey_scan();         
+      
+      //adc key check         
+      adckey_check();     
+
+      //adc key process
+      adckey_process( );     
+
+
+
+
+====================adc按键子程序===========================
+
+void getadcvalue () 
+{  
+   UINT8 stemp2[20]={0}; 
+   UINT16 AIN_value=0;
+   double iadc =0;
+   
+   
+   //-------------BAND-----------------
+   
+   Enable_ADC_BandGap;	  
+   //CKDIV = 0x02;	
+
+   
+   clr_ADCF;
+   set_ADCS;										 
+   while(ADCF == 0);  
+
+   BAND_value =  ADCRH ;
+   BAND_value <<=  4 ;
+   BAND_value |=  ADCRL & 0x0f ;      
+
+   //CKDIV = 0;	
+   Disable_ADC;      
+      
+ 
+   //-------------AIN5-----------------
+   
+   Enable_ADC_AIN5;	    
+   
+   clr_ADCF;
+   set_ADCS;							 
+
+   while(ADCF == 0);
+   
+   AIN_value =  ADCRH ;
+   AIN_value <<=  4 ;
+   AIN_value |=  ADCRL & 0x0f ;      
+   
+   //iadc =   Bandgap_Voltage * AIN_value  / BAND_value;     //mv        
+   iadc =   Bandgap_Voltage * AIN_value  /  BAND_3300;     //mv        
+   iadcvalue = (UINT16)iadc;
+
+
+   //iadcvalue_out = ( (INT16) (iadcvalue -  iadcvalue_delay) >>AVRBITCOUNT ) + iadcvalue_delay;
+   //iadcvalue_delay = iadcvalue_out; 
+
+   flg_channel=1;
+ 
+   Disable_ADC;      
+   
+}
+
+
+void adckey_scan(void)
+{
+      
+      if(flg_channel==1)
+      {
+         flg_channel=0;    
+
+         //iputs0("adc scan...\r\n");   
+         
+        
+         //iadc_key = (UINT16)((double)BAND_value / BAND_3300 * iadcvalue);  
+         iadc_key= iadcvalue;
+         
+         //sprintf( sadctemp1, "adckey: %u\r\n", iadc_key);     
+         //sprintf( sadctemp2, "BanD:%u,adc:%u\r\n", BAND_value,iadcvalue_avr); 
+         
+
+         if(iadc_key >= ADC_VOL_NC2 )
+         {
+
+            Switch_Delay1ms(10); 
+
+
+            if(iadc_key >= ADC_VOL_NC2 )
+            {
+               //--if(KEY0_NC_PIN==0) {iputs0(sadctemp1); Switch_Delay1ms(2); iputs0("no key2\r\n"); Switch_Delay1ms(2); }
+               //sprintf( sadcstate, "no key2\r\n");
+               
+               flg_keydown1 = 0;
+               flg_keydown2 = 0;
+               flg_keydown3 = 0;
+               
+            }               
+         }         
+         
+         else if (iadc_key >= ADC_TONE )
+         {
+         
+            Switch_Delay1ms(10); 
+ 
+
+            if(iadc_key >= ADC_TONE )
+            {
+ 
+               //if(flg_keydown3==0)  {iputs0(sadctemp1); Switch_Delay1ms(2); iputs0("tone key\r\n"); Switch_Delay1ms(2); }               
+               //sprintf( sadcstate, "tone key\r\n");
+
+            
+               flg_keydown1 = 0;
+               flg_keydown2 = 0;
+               flg_keydown3 = 1;   
+
+               ikeyvalue3 = 1;               
+               
+            }               
+         }
+
+         else if (iadc_key >= ADC_VOLADD )
+         {
+
+            Switch_Delay1ms(10);  
+
+            if(iadc_key >= ADC_VOLADD )
+            {
+               //if(flg_keydown2==0)  {iputs0(sadctemp1); Switch_Delay1ms(2); iputs0("vol+ key\r\n"); Switch_Delay1ms(2); }
+               //sprintf( sadcstate, "vol+ key\r\n");
+
+               flg_keydown1 = 0;
+               flg_keydown2 = 1;
+               flg_keydown3 = 0;
+               
+               ikeyvalue2 = 1; 
+               
+            }               
+         }     
+         else if(iadc_key >= ADC_VOLDEC )
+         {
+            
+            Switch_Delay1ms(10); 
+
+            if(iadc_key >= ADC_VOLDEC )
+            {
+               //if(flg_keydown1==0) {iputs0(sadctemp1); Switch_Delay1ms(2); iputs0("vol- key\r\n"); Switch_Delay1ms(2); }
+               //sprintf( sadcstate, "vol- key\r\n");
+               
+               flg_keydown1 = 1;
+               flg_keydown2 = 0;
+               flg_keydown3 = 0;
+               
+               ikeyvalue1 = 1; 
+               
+            }               
+         }         
+          
+      }      
+
+}
+
+
+void adckey_check(void)
+{
+   //static UINT8 flg_longkey=0;
+   static UINT8 flg_downlongkey3=0;
+   
+   if (flg_downlongkey3==0) 
+   {
+   
+      //key3 tone
+      if (flg_keydown3) 
+      {
+         ikeynum3++;   
+         
+         if(ikeynum3>=LONGKEYCOUNT2)
+            {ikeyvalue3 =2; flg_keycome3=1; flg_downlongkey3=1;} 
+
+      }         
+      else
+      {
+         
+         if (ikeynum3<1) 
+             ikeyvalue3 =0;
+         else if (ikeynum3<LONGKEYCOUNT2)
+             {ikeyvalue3 =1; flg_keycome3=1;}    
+         else          
+             {ikeyvalue3 =2; flg_keycome3=1;}  
+             
+      } 
+      
+   }
+   else
+   {
+
+      if (flg_keydown3==0) 
+      {                 
+         flg_downlongkey3=0; 
+         ikeynum3=0; ikeyvalue3=0;    
+      }       
+      
+   }   
+   
+         
+}   
+
+void adckey_process(void)
+{
+   UINT8 stemp[20]={0};
+   
+   //key1  vol-
+   if( (ikeyvalue1==1) && (flg_keydown1==0) )
+   {
+      ikeyvalue1=0;
+      
+      iputbytes0(svoldec,5);      
+      //set_volume(3);
+      
+      Switch_Delay1ms(10);       
+      
+   }
+
+   
+   //key2  vol+
+   if( (ikeyvalue2==1) && (flg_keydown2==0) )
+   {
+      ikeyvalue2=0;
+      
+      iputbytes0(svoladd,5);   
+      //set_volume(7);
+      
+      Switch_Delay1ms(10);       
+      
+   }
+   
+   
+   //key3 tone
+   if  (flg_keycome3==1 )
+   {
+      flg_keycome3=0;
+
+      if (ikeyvalue3 ==1)      //short 
+      {
+         
+         if(flg_voicemode ==0)  //BT MODE
+         {
+            iputbytes0(splaypause,5);
+            Switch_Delay1ms(10);
+            
+            ikeynum3=0; ikeyvalue3=0;
+         }
+         else if(flg_voicemode ==1)  //AUX MODE
+         { 
+            
+            //get new noise mode
+            
+            //whitenoise_switch(); 
+            
+            WN_MODE++;
+            if(WN_MODE == 7)
+               WN_MODE = 1;  
+
+
+            get_volumetop(WN_MODE);
+            
+            flg_newnoise = 1;
+            
+            //mute
+            P11=0; 
+            Switch_Delay1ms(10);
+            
+            
+            whitenoise_switch(); 
+            
+            set_realvolume(inoisevolume_top);
+            Switch_Delay1ms(10);  
+            
+            
+            //unmute
+            Switch_Delay1ms(10);
+            P11=1; 
+            
+            
+            
+            //ipwm_mode=WN_MODE;  
+            
+            Switch_Delay1ms(100);  
+            sprintf(stemp,"mode: %bu,%bu\r\n",WN_MODE,inoisevolume_top );
+            iputs0(stemp);
+            Switch_Delay1ms(20);  
+
+            
+            ikeynum3=0; ikeyvalue3=0;          
+         }
+         
+      }
+
+      //switch BT and AUX 
+      if (ikeyvalue3 ==2)   //long
+      {
+         
+         //P12 = ~P12;
+
+           
+         if(flg_voicemode==0)    //switch to AUX  
+         {  
+
+            //send cmd 
+            iputbytes0(sBTAUX_Switch,5);
+            Switch_Delay1ms(10); 
+
+            Switch_Delay1ms(100);
+            get_volumetop(1);
+            set_realvolume(inoisevolume_top);            
+            Switch_Delay1ms(100);            
+            
+
+            set_PWMRUN;            
+            flg_openpwm =1;
+            
+            flg_voicemode =1;      //switch to AUX  
+            
+            P12=0;   //led      //--test     
+            
+            //inoisevolume_top = NOISEVOLUMETOP -5; //mode1
+            //set_realvolume(inoisevolume_top);
+            
+         }
+         else    //switch to BT  
+         {
+
+            //send cmd 
+            iputbytes0(sBTAUX_Switch,5);
+            Switch_Delay1ms(10);            
+            
+            clr_PWMRUN;
+            flg_openpwm =0;            
+            
+            flg_voicemode =0;      //switch to BT  
+            
+            P12=1;                 //led   //--test    
+            
+         } 
+         
+         ikeynum3=0; ikeyvalue3=0;
+      }
+       
+   }    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

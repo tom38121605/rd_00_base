@@ -1,0 +1,54 @@
+
+
+1. 软件安装
+   安装到路径："D:\Program Files (x86)\QTIL\BlueSuite 3.2.0\NvsApp.exe"
+
+
+2. 硬件连接
+   1).  把耳机测试板接上电池， 
+   2).  连接usb线到电脑  （左边的usb口坏了，插右边的usb口）
+
+ 
+3. 烧录xuv文件
+   1). 点击运行NvsApp
+   2). 在Transport中选"DEBUG"
+   2). 在Device中选"USBDBG(1000)", 
+   2). 点击ok
+   3). 在opration中选burn
+   3). 在nvs type中选auto
+   3). 选择要烧写的.xuv文件
+   3). 点击run
+
+
+3. 导出xuv文件
+   1). 点击运行NvsApp
+   2). 在opration中选burn
+   3). 在nvs type中选auto
+   4). 选择要保存的.xuv文件
+   5). 点击run
+
+
+5. 读取地址 
+   1). 在路径"D:\Program Files (x86)\QTIL\BlueSuite 3.2.0\NvsApp.exe"下面， 
+   2). 编辑qcc512x_read_ps_usb.bat文件，把读出的文件名修改为20190710_rd.txt
+   3). 点击qcc512x_read_ps_usb.bat文件, 在dos提示框中出现success，则ok
+
+5. 写入地址
+   1). 把20190710_rd.txt中的地址和Xtalfreqtrim, 拷贝到20190710_wr.txt中
+   2). 编辑qcc512x_write_ps_usb.bat文件，把读出的文件名修改为20190710_wr.txt
+   3). 点击qcc512x_write_ps_usb.bat文件, 在dos提示框中出现success，则ok
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    

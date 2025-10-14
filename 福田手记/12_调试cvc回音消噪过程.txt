@@ -1,0 +1,51 @@
+
+1. 耳机通过usb线连接电脑，耳机开机
+1. 点击运行软件QACT_V7.24
+
+2. 手机连接耳机蓝牙
+2. 打电话10086
+
+3. 点击 connection configuration， 添加2个路径如下：  （只需设置一次，已完成设置）
+    D:\qtil\ADK_QCC512x_QCC302x_WIN_6.3.1.31\tools\bin\kalaccess.dll
+    D:\qtil\ADK_QCC512x_QCC302x_WIN_6.3.1.31\audio\kalimba\kymera\output\stre_rom_v02_release\QACT\ADK_6.2_QACT_Modules.qwsp
+
+4. 点击上面的图标按钮connect to device
+4. ，direct USB debug，  ... proc 0  ， 点击右下角的connect     （待完善）
+
+5. 点击右边第1栏的downloadaecref
+5. 再点击菜单dsp / mornitor statistics
+5, gain sing1 修改为25db
+5. 然后点击set data保存数据
+
+6. 菜单dsp / write persistence / write changed param
+6. 菜单dsp / write persistence / write all param
+
+7. 同理，点击右边第2栏，第3栏，進行修改和保存
+
+8. 点save工具按钮图标，保存配置到文件
+
+9. 调eq  
+    。手机蓝牙连接耳机，播放音乐
+    。点击运行软件QACT，连接usb线到电脑
+    。点击右边第1栏的eq...
+    。再点击菜单dsp / mornitor statistics
+    。选择下拉框中的full，eq参数框图变成蓝色
+    。双击eq参数框图
+    。调节eq参数
+    。setdata，这时可以听到改变后的eq效果
+    。菜单dsp / write persistence / write changed param
+    。菜单dsp / write persistence / write all param
+
+
+
+---------------------补充： 条件eq -----------------
+
+1. 
+
+
+
+
+
+
+
+    
