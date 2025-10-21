@@ -5,7 +5,7 @@
 1.  打开网页 https://drive.google.com/drive/my-drive
 
 2. 上传文件
-    。点选右边列表的 my drive  -- 点击上面的 “+ New”按钮  --  file upload  -- 在本地电脑中选择要上传的文件 “test.txt"
+    。点选右边列表的 my drive  -- 点击上面的 “+ New”按钮  --  file upload  -- 在本地电脑中选择要上传的文件 “test.txt"     （也可以右键空白处 -- file upload）
 
 3. 分享文件
     。点击“test.txt" 右边的 三个点  -- 点击 share  -- share  --  选择要分享的人   （也可以 拷贝链接）
