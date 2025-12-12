@@ -1,0 +1,5 @@
+1. 打开网址 https://app.clickup.com/12600515/template/default/t-211294211/autoTemplate
+
+2. Admin & Ops   --  Shipping, Orders, Requisition  --   Shipment Tracking   
+
+3. 在中间的窗口，点击选项卡“Shipping Wiki”
