@@ -1,0 +1,42 @@
+
+Hi  ,   
+
+I have uploated the virtual eeprom project to the github.
+
+Following is completed list:
+1. Master send the 2k data to slave by multi packages.
+2. Slave recieve the data of the multi packages and save to the flash.
+3. Master send the  total crc to slave.
+4. Slave receive the total crc, and compare with all the received data's crc (caculated by the stm32 register). 
+5. Slave read all the data in the flash, then caculate the crc. and check the crc. 
+
+Next steps:
+1. Try to reduce the power up time of the master and the slave unit.  
+2. Test the program at the IDE of the stm32cubeide.   (now is at keil)
+
+
+Best Regards! 
+Thanks,
+Zhao
+
+
+---------------
+
+
+Hi  ,
+
+Thank you for updating! We are doing a thorough review of all the hardware assembles tomorrow and will provide feedback so we can get these ordered ASAP.
+
+Have you been able to use the library components in your design or are you still unable to access these?
+
+Also, please see the attached step file of the CD pcb concept. This is a rough concept design which you can use to start the layout but there is plenty of flexibility here. Have you started the design of the CD yet? There are a lot of things to contemplate and decide with this design. Please let me know if you have any questions.
+
+Thanks!
+
+-J 
+
+
+
+
+
+
