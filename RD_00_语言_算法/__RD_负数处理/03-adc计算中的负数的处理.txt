@@ -1,0 +1,22 @@
+
+开发环境：  keil v5.39.0.00
+单片机：     stm32c011f6U6
+
+            uint8_t iadcdata[3]={0};
+            int32_t iout = 0;
+            uint32_t itemp;
+            float ivol;
+            
+            //把u8合并成u32，处理bit23的符号位
+            itemp = (uint32_t)iadcdata[0] << 16 | (uint32_t)iadcdata[1] << 8 | (uint32_t)iadcdata[2];
+            if (itemp & 0x800000)                   
+               iout = -(1000000-itemp);              
+            else               
+               iout = itemp;
+
+            //把22位adc转换成电压的计算
+            ivol = (float)iout / 8388607.0f * 2400.0f;           
+
+            //用sprintf打印电压值         
+            sprintf(stemp, " data: %8d, %.2f\r\n" , iout, ivol);
+            iputs((uint8_t *)stemp); 
