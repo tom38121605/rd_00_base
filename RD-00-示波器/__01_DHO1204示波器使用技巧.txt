@@ -13,9 +13,37 @@
        。点击选中 track
        。xy的地方选 off
 
+
 3. 示波器的光标，从x轴切换到y轴
 答： 点屏幕右边的cursor，点setting，点选select右边的x，即ok
 
+
+4. 如何锁住示波器触发的余辉
+   1）。设置余辉时间
+          触摸点击左下角的齿轮  -- 点击 display  -- 在persistence time项选择500ms
+
+   2）。用normal的edge触发波形   （待验证）
+          . 按trigger
+         . sweep项，选 normal
+         . type项选择触发类型， 选edge  --  CH1  --  RISING
+
+5. 如何延时触发
+     1）。 关闭上面的余辉设置， 即在persistence time项选择Min
+     2）。用normal的timeout触发波形   （待验证）
+          .  CH1选500mv和10ms的每格幅度
+          . 把时间轴的光标移到-50ms
+          . 按trigger
+         . sweep项，选 normal
+         . type项选择触发类型， 选timeout  --  CH1  --  either -- timeout值为5ms
+    3）。注意，波形触发后，要马上按示波器的stop把波形稳定下来
+ 
+
+6. 频率太快捕捉不到所有波形的解决
+   。触摸点击下面的CH1通道  --  点击probe的最右边Acquisition  --  在acquisition项选择Peak
+   。在CH1通道设置后，CH2-CH4也同样跟着设置成Peak了
+
+
+   
 
 
 
