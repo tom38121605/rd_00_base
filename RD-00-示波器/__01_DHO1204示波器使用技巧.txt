@@ -70,6 +70,20 @@
     。 触摸点击左下角的齿轮  -- 点击 utility  --  setup  --  在load last项，选Last 
 
 
+11. 波形录制
+
+   。 把trigger调到auto
+   。 触摸点击左下角的齿轮  -- 点击 record  --  在enable项，选ON  --  interval项，把10ns改成10us  -- frames项，设置为1000
+        -- 点击Record项，右边的圆圈 -- 开始录制
+   。再点Record项，右边的圆圈 -- 停止录制
+
+   。点击play项，下面的播放按钮  -- 播放刚才录制的视频
+   。播放的时候，可在MInimize项，设置为On  -- 把播放窗口最小化
+
+
+
+
+
 
 
    
