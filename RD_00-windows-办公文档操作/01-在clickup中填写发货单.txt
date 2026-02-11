@@ -1,5 +1,21 @@
-﻿1. 打开网址 https://app.clickup.com/12600515/template/default/t-211294211/autoTemplate
+﻿
+
+
+=================快速直达=========================
+
+https://app.clickup.com/12600515/v/fm/c0h63-20291
+
+
+https://forms.clickup.com/12600515/f/c0h63-20291/VVKZ2WLH7AD34G3Z6S
+
+
+===============慢动作=================================
+
+1. 打开网址 https://app.clickup.com/12600515/template/default/t-211294211/autoTemplate
 
 2. Admin & Ops   --  Shipping, Orders, Requisition  --   Shipment Tracking   
 
 3. 在中间的窗口，点击选项卡“Shipping Notification to ommo”
+
+
+
