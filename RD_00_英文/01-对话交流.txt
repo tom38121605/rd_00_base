@@ -15,6 +15,10 @@ Please find the attached figure of the starting adc and reading the xyzt data ,t
 Please check the attached figure for the ADC startup and xyzt data readout. Thanks.
 
 
+反馈建议：
+
+ I reviewed it with RI  today, all the circuits made sense, but we had a couple pieces of schematic feedback.
+
 
 停电催费：
 The building management ask for the electricity fees, He said there will cut the electricity supply tomorrow.
