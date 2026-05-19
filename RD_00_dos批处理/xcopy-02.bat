@@ -9,7 +9,7 @@ for /d %%a in ("%src%\hardware_logs*") do (
     xcopy "%%a\*" "%dst%\%%~nxa\" /E /H /Y /I /D
 )
 
-copy     "%src%\data\*.txt"    "%dst%\"        /y
+copy     %src%\data\*.txt    %dst%\        /y    
 
 echo xcopy backup success! ...%time% 
 pause 
@@ -26,3 +26,5 @@ rem /I：自动识别为文件夹
 rem for /d 遍历文件夹
 rem %%a = 完整路径，例如 D:\test\hardware_logs_202501
 rem %%~nxa = 只拿最后的文件夹名 → hardware_logs_202501
+
+rem 如果目录或文件里面没有空格，可以去掉变量外面的引号   //copy  "%src%\*.txt"   "%dst%\"    
