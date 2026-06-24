@@ -1,4 +1,5 @@
 
+----------------
 
 Hi, Morgan, The VPN seems to be about to expire.
 OK, let's renew it please
@@ -111,6 +112,8 @@ Nice work on these schematics. I only have a couple of notes for you.
 ---
 
 Initial version
+
+---------
 
 
 
