@@ -36,9 +36,14 @@
 
 
 
+4. 下面的语句运行顺序                                    //easy ， 就是传入一个B函数地址，在A函数里面运行B函数
+    adc_sensors_init (&sample_set_ready);
+
+答：
+   先执行 adc_sensors_init 函数本身
 
 
-
+   在 adc_sensors_init 函数的内部某个时刻，它会通过传入的函数指针 sample_set_ready 来回调调用这个函数
 
 
 
