@@ -1,0 +1,4 @@
+
+ 1.  把窗体背景色设置为淡绿色
+
+     Win + R   --   regedit  --  HKEY_CURRENT_USER\Control Panel\Colors  --   Window   --  淡绿色是 199 237 204 或 202 234 206

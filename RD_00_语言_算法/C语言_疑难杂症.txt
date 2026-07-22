@@ -100,7 +100,9 @@
              发现是少了ommo_build_common的文件  （从外面的ommo_build_common库拷贝进去，ok）
 
 
+8.  context的作用 （待举例说明来完善）
 
+    俺打一个比喻，context就是，用一个快递盒子把用户的东东装在里面，在盒子上贴一个独一无二的标签，该标签就是context
 
 
 
