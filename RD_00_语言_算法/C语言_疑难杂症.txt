@@ -105,5 +105,10 @@
     俺打一个比喻，context就是，用一个快递盒子把用户的东东装在里面，在盒子上贴一个独一无二的用户标签，该标签就是context
     像一个模块函数被多个地方调用，用context可以区分不同的调用地方
 
+    打个比喻：
+      comms_1wire  -- 小孩
+      context=this    -- 小孩名字    
+      doghut            --  小孩的狗咬人
+      this->findfather  -- 通过小孩找到父亲索赔
 
 
