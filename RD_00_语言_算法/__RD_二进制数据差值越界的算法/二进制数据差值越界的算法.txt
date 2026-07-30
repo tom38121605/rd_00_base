@@ -1,0 +1,54 @@
+﻿
+1.   unit8处理负数越界回卷的处理
+
+      calculate_wrapped_delta(  u8  first,  u8  second,  u8  period )    //period = 256  UINT8_MAX 
+      {
+            delta = first - second;
+
+            if( delta < - (period>>1) )  
+                delta += period;
+
+            if( delta >  (period>>1) )
+                delta -= period;
+
+            return delta;
+      }
+
+
+   。举个例子（简化成 8 位计数器，周期 = 256）
+
+      用 8 位计数器理解（0~255 循环），period = 256，period >> 1 = 128。
+
+      场景 1：没回绕（first > second）
+      text
+      first = 200（当前时间）
+      second = 100（采样时间）
+
+      delta = 200 - 100 = 100
+
+      if (delta < -128)  → 100 < -128? 否
+      if (delta > 128)   → 100 > 128? 否
+
+      返回 100  ← 正常，采样时间 100 在过去，确实晚了
+      场景 2：回绕（first 已经溢出过）
+      text
+      first = 50（当前时间，实际是 256 + 50 = 306）
+      second = 200（采样时间，实际是 200）
+
+      delta = 50 - 200 = -150
+
+      if (delta < -128)  → -150 < -128? 是 → delta += 256 = 106
+      if (delta > 128)   → 106 > 128? 否
+
+      返回 106  ← 采样时间在未来 106 个 tick 后，正确！
+      场景 3：回绕的另一种情况
+      text
+      first = 240（当前时间，实际是 240）
+      second = 50（采样时间，实际是 256 + 50 = 306）
+
+      delta = 240 - 50 = 190
+
+      if (delta < -128)  → 190 < -128? 否
+      if (delta > 128)   → 190 > 128? 是 → delta -= 256 = -66
+
+      返回 -66  ← 采样时间在过去 66 个 tick，说明已经错过了
