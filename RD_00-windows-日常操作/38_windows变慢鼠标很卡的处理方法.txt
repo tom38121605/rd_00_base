@@ -1,0 +1,7 @@
+
+1.  关掉 qq浏览器  --   按 ctrl + shift + esc  --  结束所有的qq浏览器的任务
+
+2.  关掉 wechat  --   按 ctrl + shift + esc  --  结束所有的wechat的任务
+
+
+
