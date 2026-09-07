@@ -112,3 +112,12 @@
       this->findfather  -- 通过小孩找到父亲索赔
 
 
+9.  attribute((unused)) 的理解
+
+         attribute((unused)) volatile static uint32_t pwmDuty;
+         __attribute__((unused))：GCC 扩展，欺骗编译器警告系统：就算 C 代码里没有读写这个变量，不要报 unused?variable 警告。
+
+         替代写法：
+         volatile static uint32_t pwmDuty;
+         (void)pwmDuty;
+
