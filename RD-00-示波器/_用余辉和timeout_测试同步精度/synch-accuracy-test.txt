@@ -1,0 +1,351 @@
+参考:  EP-100161_B Axon Synchronization Accuracy Test DV Protocol.docx.pdf
+
+注意1： 10036f用v7011 RC1，才能显示3000Hz
+注意2： 要用旧版本的cnctestapp，无线接收器12223才能显示1000hz
+
+说明1：在深圳office不要用带k1版本的，在惠州三华要用带K1版本的
+
+
+01. 测试深圳机子，软件烧录测试12542 （如有synch test的版本，则烧录带synch test的版本）   //ok
+
+   12223无线接收器：
+      12223-mini_usba_transceiver-bootloader-PID61-v7011_RC1.hex      //先用Firmware Updater烧录，如果不行，再用segger的J-Flasher lite烧录
+      12223-mini_usba_transceiver-standard-PID61-v7011_RC1.zip        //用Firmware Updater烧录
+
+   10036f基站：
+      10036f-basestation-bootloader-PID4-v7011_RC1.hex    //用Firmware Updater烧录
+      10036f-basestation-synch_test-PID4-v7011_RC1.zip    //用Firmware Updater烧录
+
+   12542的SIU:
+      12542-wired_microsd_3p_3v3-bootloader-PID66-v7011_RC1.hex     //用Firmware Updater烧录
+      12542-wired_microsd_3p_3v3-synch_test-3p0mm-PID66-v7011_RC1.zip    //用Firmware Updater烧录
+
+
+02. 测试三华机子，软件烧录测试12542 （如有synch test的版本，则烧录带synch test的版本）    //ok
+
+   12223无线接收器：
+      12223-mini_usba_transceiver-bootloader-PID61-v7011_RC1.hex     
+      12223-mini_usba_transceiver-standard-PID61-v7011_RC1.zip  
+
+   10036f基站：
+       bootloader没有jlink接口不能修改，显示是V7010 (有可能是V7010,也有可能是V7010 RC0)
+      10036f-basestation-synch_test-k1-PID7-v7011_RC1.zip    //用Firmware Updater烧录
+
+   12542的SIU:
+      bootloader没有jlink接口不能修改，显示是V7010 (有可能是V7010,也有可能是V7010 RC0)
+      12542-wired_microsd_3p_3v3-synch_test-3p0mm-k1-PID81-v7011_RC1.zip    
+
+
+03. 测试三华机子，软件烧录测试11952D （如有synch test的版本，则烧录带synch test的版本）   
+
+   12223无线接收器：
+      12223-mini_usba_transceiver-bootloader-PID61-v7011_RC1.hex     
+      12223-mini_usba_transceiver-standard-PID61-v7011_RC1.zip       //V7012 RC0 也可
+
+   10036f基站：
+       bootloader没有jlink接口不能修改，显示是V7010 (有可能是V7010,也有可能是V7010 RC0)
+      10036f-basestation-synch_test-k1-PID7-v7011_RC1.zip              //V7012 RC0 也可
+
+   11952的SIU:
+      
+      bootloader没有jlink接口不能修改，显示是V7010 (有可能是V7010,也有可能是V7010 RC0)
+      11952D-wired_1p_microsd_3v3-synch_test-3p0mm-k1-PID82-v7012_RC0.zip                  //v7012_RC0以前的版本会闪黄灯
+
+
+
+1. 目标
+
+   目标是定义测试方法和客观证据，以验证手术导航系统（包括Orbit基站和Axon SIU）的同步精度
+
+   如参考功能规范中所定义。
+
+
+2. 背景
+
+   基站与SIU之间的同步对于精确跟踪至关重要。本测试在硬件层面测量同步情况，旨在评估同步精度以及失联后的最大误差。
+
+   SIU在失联84毫秒后将报告故障。
+   同步可以补偿基站和SIU内部各部件之间的差异。例如，单个时钟的误差可能高达40ppm，因此在84毫秒后，时钟偏差可能达到3.36微秒。
+
+   对于整个Ommo系统的位置精度而言，小于50微秒的误差可以忽略不计。
+
+
+3. 范围  （firmware中有synch test）
+
+   . 10001 Orbit Base Station   //10036f  V7010 不能用K1的版本 //已验证
+
+   . 12186 Single Port SIU      //用12542代替， V7010 不能用K1的版本    //已验证
+   . 13469 3 Port SIU, 1.0m     //用12542代替， V7010 不能用K1的版本    //已验证
+   . 13005 3 Port SIU, 3.0m     //用12542代替， V7010 不能用K1的版本    //已验证
+
+
+4. References  忽略
+
+   DHF-100140: Orbit DIOVV Matrix
+
+
+5. 设备和原料
+
+   . Computer with at least three USB ports                      //带3个usb口的电脑
+   . Ommo Firmware Updater - Internal (Ommo Hardware Test App)   //安装Firmware Updater软件 external V3.1
+   . CNC Test App (installed on computer)                        //安装CNC Test App  V2025.11.13           //已验证
+
+   . 11658 OMMO USB-C TO USB-A CABLE, 5M                         //5米长的连接线
+   . 11918_B USB Programming and Test Breakout Board             //双翅连接板
+
+   . 12223 Wireless Receiver (Firmware 6003)                    //12223无线接收器
+   . 12246 USB TEST BOARD                                       //单翅连接板            
+
+   . Oscilloscope                                               //示波器
+   . Any sensor, such as 12252 Single Mag Sensor, 1.5m          //sensor 12252  1.5米
+
+
+6. 创建测试
+
+   . 在被测设备DUT旁边，必须没有其他的basestation。
+   . 在Firmware Updater中，update更新12542  到  V7011 RC1        （old： V7010）
+   . 在Firmware Updater中，update更新10036f 到  V7011 RC1        （old： V7010）
+   . 在Firmware Updater中，update更新12223  到  V7011 RC1        （old： V6003）
+
+
+   . 11918的双翅连接板，取下R4,R5,根据图示，飞线出synch和gnd线
+   . 12246的单翅连接板，取下R5,根据图示，飞线出synch和gnd线
+
+   . 硬件连接：basestation --  11918的双翅连接板  -- 5米长的连接线11658  -- 笔记本电脑
+   . 硬件连接：12542  --  12246的单翅连接板  -- 笔记本电脑  （12542另一端 接sensor 12252 ）
+   . 硬件连接：12223  -- 笔记本电脑
+
+   . 示波器连接：一个探针连11918的双翅连接板上的synch和gnd
+   . 示波器连接：一个探针连12246的单翅连接板上的synch和gnd
+
+   . basestation电压刻度设为1v， siu电压刻度设为50mv
+
+
+7. Sample Size  （先忽略）
+
+
+8. 测试方法
+
+   . 打开 CNC Test App
+   . 在左上角的下拉框，选择basestation，点击open
+   . 等右边出现频率数值后，点击右边的“command"
+   . 点击 “Enable Mag Cal Mode”和“Enable Data Mode”
+   . 在 Settings去掉勾选“Disable wireless synch on SIU’s” 
+   . 听到Base Station的马达转动声
+
+
+   . Confirm that the PPS field is displaying 3003 (+/- 10)
+   . 注意：没有必要open打开siu的com口
+
+
+   . 8.3 测量同步精度  （设置示波器为CH1 1v , CH2 50mv 和 100ns）
+
+   . 8.3.1 将示波器余辉设置为 500 毫秒
+   . 8.3.2 将示波器设置为在基站synch信号的上升沿触发  //改成下降沿触发
+
+   . 8.3.3 调整示波器显示，使基站和SIU同步信号的拐点清晰可见，并占据显示的大部分区域   
+           如果SIU信号在基站信号的上升沿下降，则将示波器触发点设置为基站信号的下降沿
+           使用示波器Xa,Xb光标测量同步精度，即基站和SIU同步信号之间的延迟，并记录下来
+
+
+           在本例中，由于余辉设置（参见第 6 节），SIU 抖动清晰可见。
+           光标用于识别SIU（实线垂直白线）和基站（虚线垂直白线）信号的上升点      //已理解，余辉就是SIU的抖动时间 （某个上升点，应就是同步信号）
+           示波器计算同步精度，即峰值点延迟（本例中为“BX-AX = 108ns”）
+           在本例中，SIU信号在基站信号的上升沿上升
+           应调整示波器触发信号，以便测量 SIU 信号的上升沿
+
+
+
+8.4. 测量失去同步后的时钟漂移
+
+   . 8.4.1 关闭示波器余辉
+   . 8.4.2 设置示波器的触发方式为timeout，触发源选择SIU（CH2），边沿触发（双向）， 5ms的 timeout （设置示波器为CH1 1v , CH2 500mv 和 10ms）  //把时间轴光标移到-50ms  
+
+   . 8.4.3 选择 12223 ，点Open  （前面已打开open basestation）
+
+   . 8.4.4 基站显示~3003 PPS, 12223显示 ~1000 PPS,说明二者已同步
+
+   . 8.4.5 在 CNC 测试应用程序中，关闭与基站的连接。这将停止来自基站的无线传输。
+           大约 80 毫秒后，SIU 将检测到来自基站的信号丢失，
+           SIU 将停止输出同步信号。信号丢失应触发
+
+
+
+   . 8.4.6 在 SIU 的最终同步边沿， 测量基站和 SIU 之间的时钟漂移
+
+
+   . 8.4.6.1 下图的示波器图像，显示了整个事件过程： 
+
+             图示：SIU 信号的周期为 1 毫秒。虚线光标位于上一个完整 1 毫秒周期的末尾。
+             实线光标位于该点之前 84 毫秒处，大致是基站停止发射信号的位置。（有控制台fail时的21，乘4ms，计算而得出）
+   
+
+   . 8.4.6.2 下图示波器图像放大显示了SIU信号最后1毫秒的周期，靠近上图中的虚线部分。（设置示波器为CH1 1v , CH2 500mv 和 1ms）
+
+             图：实线光标位于 SIU 信号最后 1ms 周期的末尾。
+             虚线光标位于 固件对同步丢失做出反应并停止 SIU 信号的位置。
+             请注意，在本例中，最后一个 1ms 周期的后沿是上升沿，但也可能是下降沿。
+             另请注意，如果固件在 SIU 信号已为低电平时做出反应，则不会出现最终的“假边沿”    //待理解
+
+
+   . 8.4.6.3 下图示波器图像进一步放大了SIU最后1毫秒周期的“后沿”，靠近上图中的实线：（设置示波器为CH1 1v , CH2 500mv 和 1us）
+
+             图示：实线光标位于SIU信号最后1ms周期的最后一个边沿，虚线光标位于基站信号的相应边沿。
+
+             请注意，在本例中，两个边沿均为上升沿，但边沿方向可以是任意的。
+             另请注意，在本例中，SIU边沿领先于基站边沿，但基站边沿也可能领先于SIU边沿。
+             无论如何，请测量两个边沿之间的时间间隔，即同步丢失后的最大时钟漂移。在本例中，时钟漂移为2.68微秒。
+
+
+
+   . 8.4.6.4  在CNC测试应用程序控制台窗口中，观察到SIU向无线接收器发送了故障信息：
+
+             图：AlertSynchFail 消息是故障通知。数字“21”表示在发送故障之前丢失的同步消息数量
+             基站每 4 毫秒发送一次同步消息；21 * 4 毫秒 = 84 毫秒
+
+
+9. 分析
+
+   为了验证设计输入 8685pr2yd 和 8685wxruv 的有效性，所有被测器件的同步信号精度必须小于 4μs
+
+   为验证设计输入 868dt23nr 和 868dt22ym 的有效性，时钟漂移必须小于 50 µs
+
+
+
+10. 验收标准
+
+
+     Parameter                      Design Input                                              Acceptance Criteria
+
+     Base Station Wireless     需求编号：8685pr2yd                                      
+     Synchronization           基站应向SIU广播无线time同步信号                                证明无线时钟同步精度小于 4 微秒
+                               该无线同步必须提供小于4微秒的时钟同步精度                      当基站和 SIU 之间未连接同步电缆时（无线同步已启用）
+
+
+     SIU Wireless              需求 ID：#8685wxruv
+     Synchronization           AXON SIU 应接收来自基站的无线时间同步信号                       证明无线时钟同步精度小于 4 微秒
+                               无线同步必须提供小于 4 微秒的时钟同步精度                       当基站和 SIU 之间未连接同步电缆时（无线同步激活）
+
+
+     Clock fault               需求编号：868dt23nr
+                               基站及其相关软件应停止数据传输                                  当不确定性低于预设阈值（不超过 50 μs）时，数据传输停止   
+                               当 SIU 中基站时钟和采样系统的不确定性超过预定阈值
+                                 （不超过 50 微秒）时（允许调整阈值）
+
+
+     Clock fault               需求编号：868dt22ym
+                               基站及其相关软件应指示故障                                      当不确定性低于预设阈值（不超过 50 μs）时，即表明存在故障
+                               当基站时钟和采样系统在SIU中的不确定度超过预设阈值时
+                               （不超过50微秒，允许调整该阈值）
+
+
+
+
+
+=============================================cnctestapp=======小灯说明 ==========================================================
+
+
+一。10036f（basestation） -- 12542(SIU) -- 12223无线接收器三个器件插同一台电脑：（在cnctestapp中，不勾选“disable wireless...”）
+     （在使用12223无线接收器时，12542可插在另一台电脑上供电）
+    
+
+1. 上电后，basestation 和12542都闪白灯呼吸，
+
+2. 选中basestation，点击open后，在open 过程中...
+   。basestation闪几秒绿灯呼吸
+   。12542一会儿白灯呼吸，一会儿青灯常亮
+
+3. basestation open成功后，
+   。basestation一会儿显示绿色呼吸，一会儿显示青色常亮，交替显示
+   。12542仍闪白灯呼吸
+
+4. 选中无线接收器12223后，点击open，open成功后
+   。频率显示3000和1000位），
+   。basestation闪绿灯呼吸，
+   。12542闪绿灯呼吸
+
+
+二。basestation -- 12542(SIU) 两个器件插同一台电脑：（在cnctestapp中，不勾选“disable wireless...”）
+
+  （小灯显示同上, 不同点是，第4步open时，是打开12542，其它相同）
+
+待理解： 勾选“disable wireless...”后，打开12542，没有显示频率，只显示NPN
+
+
+
+
+
+
+
+
+=============================================ommoservice=======小灯说明 ==========================================================
+
+
+
+一。basestation -- 12542(SIU) -- 12223无线接收器三个器件插同一台电脑：（在cnctestapp中，不勾选“disable wireless...”）
+     （在使用12223无线接收器时，12542可插在另一台电脑上供电）
+    
+
+1. 三个器件上电后，basestation 上电时显示白灯呼吸，12542闪白灯呼吸
+
+
+2. 打开ommoservice后，  （注意第一次时，要点start pairing进行配对）
+   。basestation显示闪蓝灯呼吸，
+   。12542闪绿灯呼吸
+   。在电脑屏幕上的ommoservice上，在basestation显示黑灯， 12542和12223都是绿灯
+  
+
+3. 再打开ommoapp后，
+    。basestation显示绿灯呼吸，
+    。12542闪绿灯呼的吸
+    。ommoapp上出现位置光标
+    。在电脑屏幕上ommoservice上， 三个器件都显示绿灯
+
+
+
+二。basestation -- 12542(SIU) 两个器件插同一台电脑：
+
+1. 两个器件上电后，basestation 上电时显示白灯呼吸，12542闪白灯呼吸
+
+2. 打开ommoservice后，  （注意第一次时，要点start pairing进行配对）
+   。basestation显示闪蓝灯呼吸，
+   。12542也闪蓝灯呼吸
+   。在电脑屏幕上的ommoservice上，在basestation和12542都是黑灯
+
+
+3. 再打开ommoapp后，
+    。basestation显示绿灯呼吸，
+    。12542闪绿灯呼的吸
+    。ommoapp上出现位置光标
+    。在电脑屏幕上ommoservice上， 两个器件都显示绿灯
+
+
+
+补充说明： SIU不插传感器，在ommoservice上，会显示红灯err
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
