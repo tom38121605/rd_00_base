@@ -121,3 +121,35 @@
          volatile static uint32_t pwmDuty;
          (void)pwmDuty;
 
+
+10. 使用宏定义代替子程序， 加快程序运行速度
+
+         ---宏定义：
+
+         #define STOP_TIMER_CYCLE()                      \
+             do {                                        \
+                 COMPARE_0_INST->COUNTERREGS.CTR = 0;    \
+                 DL_TimerG_stopCounter(COMPARE_0_INST);  \
+                 flg_synched = 0;                        \
+                 itimestate = STATE_IDLE;                \
+                 flg_finishcycle = 1;                    \
+             } while (0)
+
+
+         ---调用：
+
+         if (flag)
+             STOP_TIMER_CYCLE();
+         else
+             do_something();
+
+         do { } while(0) 把多行代码“打包”成一条语句，让宏在 if/else 里不会“散架”。
+
+         宏定义里不要写分号，调用处要写分号，无论调用者加不加分号，语法都正确：
+
+
+
+
+
+
+
