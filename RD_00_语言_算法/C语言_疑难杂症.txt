@@ -148,6 +148,24 @@
          宏定义里不要写分号，调用处要写分号，无论调用者加不加分号，语法都正确：
 
 
+11. 强制内联函数，想要强制一定展开（GCC/ARM Keil）：  __attribute__((always_inline)) 
+
+     加 static inline，推荐放在头文件（TI DriverLib 风格就是这么写），多 c 文件包含不会报重定义。
+只是建议内联；
+     编译器判断这个很短，大概率直接原地展开，不生成函数调用。
+
+         __attribute__((always_inline)) static inline void start_set(void)
+         {
+            DL_GPIO_clearPins(SETRESET_PORT, SETRESET_RESET_PIN);      //end reset first
+            DL_GPIO_clearPins(SETRESET_PORT, SETRESET_SET_PIN);
+         }
+          
+         static inline void start_set(void)
+         {
+            DL_GPIO_clearPins(SETRESET_PORT, SETRESET_RESET_PIN);      //end reset first
+            DL_GPIO_clearPins(SETRESET_PORT, SETRESET_SET_PIN);
+         }
+
 
 
 
