@@ -66,10 +66,6 @@
     。直接按示波器外框的zoom按钮， 就会把T指针指向的波形放大一倍
 
 
-10. 示波器自动保存上一次设置  （待验证）
-    。 触摸点击左下角的齿轮  -- 点击 utility  --  setup  --  在load last项，选Last 
-
-
 11. 波形录制
 
    。 把trigger调到auto
@@ -82,7 +78,18 @@
 
 
 
+12. 修改日期和时间
+     。设置 -- Utility -- setup -- date 
+     。设置 -- Utility -- setup -- time 
 
+12. 关闭显示日期和时间 （实测没有效果）
+     。设置 -- Utility -- setup -- showtime -- off
+
+12. 关闭示波器点击的声音
+     。设置 -- Utility -- setup -- beeper -- off
+
+12. 示波器自动保存上一次设置  （待验证）
+    。 触摸点击左下角的齿轮  -- 点击 utility  --  setup  --  在load last项，选Last 
 
 
 
