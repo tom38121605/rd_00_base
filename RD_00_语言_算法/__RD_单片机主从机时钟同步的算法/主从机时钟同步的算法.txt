@@ -89,6 +89,9 @@
 
 ==========13506 算法推演====应有缺陷，没有消除同步误差==============
 
+
+ 相关函数： timestamp_synch_recieved()  --  sample_event_trigger_value 
+
 参数：主机时钟每走2000（gap），从机时钟走2500（设的是2000），从机时钟快500
 
 同步次数    主机时间      从机时间      偏移量 = 主机 - 从机      偏移量变化
@@ -105,6 +108,52 @@
 
 
 
+
+
+
+======================
+
+
+
+
+[系统初始化]
+    ↓
+timestamp_init_with_internal_sample_event()
+    ↓
+初始化 TIMER3 → 设置默认配置 + 中断
+    ↓
+申请两个 CC 通道：
+├─ sample_event_compare_channel   （~1ms 采样事件）
+└─ timestamp_synch_event_compare_channel（~4ms 同步事件）
+    ↓
+读取当前 TIMER3 值，计算第一次触发时间
+sample_event_trigger_value = 当前值 + 15984*4
+    ↓
+设置第一次采样事件触发
+nrfx_timer_compare(CC_sampe, sample_event_trigger_value)
+    ↓
+┌───────────────────────────┐
+│                  循环运行                            │
+│                                                     │
+│  TIMER3 计数到 CC_sample → 触发中断                 │
+│       ↓                                             │
+│  timestamp_timer_event_handler()                    │
+│       ↓                                             │
+│  1. 计算下一次采样时间 + 15984                      │
+│  2. 设置下一次采样触发                              │
+│  3. 如果到同步事件（每4次）→ 触发同步               │
+│       ↓                                             │
+│  [采样事件] → 调用 sample_set_ready()              │
+│       → 采集传感器数据                              │
+│                                                     │
+│  [同步事件] → 调用 timestamp_synch_execute_functions│
+│       → 发送同步包（UART/1-Wire/ESB）              │
+│                                                     │
+│  [外部同步包到达] → timestamp_synch_recieved()     │
+│       → 校正 sample_event_trigger_value             │
+│       → 重新设置下一次采样时间                      │
+│       → 重置同步丢失看门狗（RTC2）                 │
+└───────────────────────────┘
 
 
 
