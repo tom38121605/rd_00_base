@@ -123,9 +123,19 @@
 答： 主要是把多句语句强制变成一个语句， 如在if  ... else 中调用该宏的时候就不会出现语法错误
 
 
+10. 在定义结构体点对点的时候，初始化结构体
+
+         nrfx_timer_config_t timer_cfg = NRFX_TIMER_DEFAULT_CONFIG;
 
 
-
+         #define NRFX_TIMER_DEFAULT_CONFIG                                                    \
+         {                                                                                    \
+             .frequency          = (nrf_timer_frequency_t)NRFX_TIMER_DEFAULT_CONFIG_FREQUENCY,\     // 0
+             .mode               = (nrf_timer_mode_t)NRFX_TIMER_DEFAULT_CONFIG_MODE,          \     // 0
+             .bit_width          = (nrf_timer_bit_width_t)NRFX_TIMER_DEFAULT_CONFIG_BIT_WIDTH,\
+             .interrupt_priority = NRFX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY,                    \
+             .p_context          = NULL                                                       \
+         }
 
 
 
