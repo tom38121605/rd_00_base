@@ -139,5 +139,17 @@
 
 
 
+11. 这是一段非常经典的 C++11 范围 for 循环（Range-based for loop），用于初始化一组 Ommocomm（协处理器通信）实例。
+
+    // ommocomm_instances 这个容器里，挨个拿出，它的类型必须是 ommocomm_uarte，让它们全部执行一遍 init()
+    for (ommocomm_uarte & ommocomm: ommocomm_instances)    
+
+        //ommocomm.init();
+            return NRF_SUCCESS; 
+
+
+
+
+
 
  
