@@ -148,8 +148,13 @@
             return NRF_SUCCESS; 
 
 
+12. C 语言宏技巧：计算可变参数（...）的个数
 
-
-
-
+    #define OMMO_PM_UARTE_PERIPHERALS_IDS     0, 1 
+    #define COUNT_ARGS(...)                                   COUNT_ARGS_EXPAND(__VA_ARGS__)       
  
+   #define OMMO_PM_UARTE_COUNT                   COUNT_ARGS(OMMO_PM_UARTE_PERIPHERALS_IDS)   // 2
+
+
+
+
