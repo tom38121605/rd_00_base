@@ -156,5 +156,23 @@
    #define OMMO_PM_UARTE_COUNT                   COUNT_ARGS(OMMO_PM_UARTE_PERIPHERALS_IDS)   // 2
 
 
+13. FOR_EACH宏的自动展开
+
+    #define OMMO_ADC_SPI_CS_PIN      (1,12), (0,5)
+    #define OMMO_PM_SS_PINS           OMMO_ADC_SPI_CS_PIN
+
+    #define NRF_GPIO_PIN_MAP(port, pin)     (((port) << 5) | ((pin) & 0x1F))
+
+    #define GPIO_DEF(arg)                            NRF_GPIO_PIN_MAP arg,
+
+    #define FOR_EACH(macro, ...)      FOR_EACH_EXPAND(macro, __VA_ARGS__)
+
+    //const uint8_t port_master_ss_pins[] = {FOR_EACH(GPIO_DEF, OMMO_PM_SS_PINS)};
+    //   const uint8_t port_master_ss_pins[] = {FOR_EACH(GPIO_DEF, (1,12), (0,5))};
+    //   const uint8_t port_master_ss_pins[] = { GPIO_DEF(1,12) ， GPIO_DEF(0,5)  };
+         const uint8_t port_master_ss_pins[] = { NRF_GPIO_PIN_MAP(1,12) ，NRF_GPIO_PIN_MAP(0,5)  };
+
+
+
 
 
