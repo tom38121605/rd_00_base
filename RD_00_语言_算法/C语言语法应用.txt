@@ -17,21 +17,16 @@
 2. C语言的连接符##，连接两个字符串，组成一个新变量   //各部分都是字符串，最后结果是一个变量
 
    #define NRFX_CONCAT_2_(p1, p2)         p1 ## p2
-
-
    #define NRFX_CONCAT_3_(p1, p2, p3)    p1 ## p2 ## p3
-
 
    示例： 
    #define _NRF_DRV_UART_CREATE_UART(id)    NRF_DRV_UART_CREATE_UART_##id
-
    _NRF_DRV_UART_CREATE_UART(0)  -->    NRF_DRV_UART_CREATE_UART_0
 
 
 3.  C语言的字符串化操作符# （把代码转化为字符串，并跟其他字符串连在一起）   //各部分是字符串，最后结果也是字符串
 
       #define MAKE_STR(s) ("321" # s "654\n")
-
       printf(MAKE_STR(hello world));
 
       输出结果: 
@@ -79,7 +74,6 @@
             day = WED;
             printf("%d",day);     
          }
-
 
 
 6. C语言中定义case样的值
@@ -173,6 +167,87 @@
          const uint8_t port_master_ss_pins[] = { NRF_GPIO_PIN_MAP(1,12) ，NRF_GPIO_PIN_MAP(0,5)  };
 
 
+14. 典型的 C++ 聚合初始化定义 FOR_MACRO讲解
+
+      // 1. 假设基础结构体
+      typedef struct { int id; } nrfx_spim_t;    //定义一个结构体
+
+      static nrfx_spim_t spi_peripheral[4];    //定义一个结构体的数组变量
+      typedef struct { nrfx_spim_t *p; } spim_basic;   //定义一个结构体的指针变量
+
+      // 2. 你的单体生成宏
+      #define SPIM_BASIC_INTST(index)    spim_basic(&spi_peripheral[index]),
+
+      // 3. 最终定义
+      //static spim_basic spim_basic_instances[] = { FOR_MACRO(2, SPIM_BASIC_INTST) };   //here
+      //  static spim_basic spim_basic_instances[] = { FOR_MACRO(2, spim_basic(&spi_peripheral[index])) };   
+
+          static spim_basic spim_basic_instances[] = { 
+              spim_basic(&spi_peripheral[0]), 
+              spim_basic(&spi_peripheral[1]) 
+          };
+
+
+      // 4. 宏展开后，编译器实际看到的：
+      static spim_basic spim_basic_instances[] = { 
+          spim_basic(&spi_peripheral[0]), 
+          spim_basic(&spi_peripheral[1]) 
+      };
+
+
+15. 类成员变量，在构造函数前初始化变量
+
+   下面两种写法的区别
+    写法一
+    spim_basic::spim_basic(const nrfx_spim_t * p_instance)
+    {
+    spim_instance = p_instance;
+    }
+
+    写法二
+    spim_basic::spim_basic(const nrfx_spim_t * p_instance )
+    : spim_instance(p_instance)
+    {
+    }
+
+
+    举个通俗的例子
+    写法一：就像买了个空水杯，先倒满白开水（默认初始化），然后再倒掉，重新倒上可乐（赋值）。
+    写法二：就像直接跟老板说“给我来一杯装好可乐的杯子”（初始化）。
+
+    写法一：构造函数体内赋值**
+    先对 `spim_instance` 执行**默认初始化**，再执行 `operator=` 赋值。
+
+    写法二：初始化列表初始化**
+    直接用 `p_instance` 去**构造** `spim_instance`，只一步。
+
+---
+
+    情况 1：spim_instance 是普通指针 `const nrfx_spim_t* spim_instance;`
+
+      最终运行结果**数值上一样**，但是流程不同：
+      写法一流程：
+
+      1. 进入构造函数前：`spim_instance` 默认初始化（野指针！随机值）
+      2. 进到 `{}` 内部：`spim_instance = p_instance;` 覆盖指针值
+
+      写法二流程：
+      1. 构造函数 `{}` 之前：直接 `spim_instance(p_instance)`，指针直接被初始化为入参，**不存在野指针中间状态**
+         嵌入式非常看重这点：初始化列表没有中间野值，更安全。
+
+     情况 2：spim_instance 是引用 /const 成员
+      写法一 **编译报错**！引用、`const` 成员**必须在初始化列表初始化，不能在函数体内赋值**
+      写法二 正常编译
+
+
+     情况 3：spim_instance 是自定义类对象（有构造函数）
+      写法一：
+          1. 先调用 `spim_instance` 的**无参默认构造**
+          2. 再调用赋值运算符 `operator=`
+
+      写法二：
+          1. 直接调用 `spim_instance( p_instance )` 匹配的构造函数（拷贝构造 / 带参构造）
+             少一次构造开销，MCU C++ 里优先选这个。
 
 
 
