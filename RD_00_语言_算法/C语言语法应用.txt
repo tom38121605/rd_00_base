@@ -197,57 +197,62 @@
 
 15. 类成员变量，在构造函数前初始化变量
 
-   下面两种写法的区别
-    写法一
-    spim_basic::spim_basic(const nrfx_spim_t * p_instance)
-    {
-    spim_instance = p_instance;
-    }
+      下面两种写法的区别
+       写法一 （不ok）
+       spim_basic::spim_basic(const nrfx_spim_t * p_instance)
+       {
+       spim_instance = p_instance;
+       }
 
-    写法二
-    spim_basic::spim_basic(const nrfx_spim_t * p_instance )
-    : spim_instance(p_instance)
-    {
-    }
+       写法二 （推荐）
+       spim_basic::spim_basic(const nrfx_spim_t * p_instance )
+       : spim_instance(p_instance)
+       {
+       }
+
+       举个通俗的例子
+       写法一：就像买了个空水杯，先倒满白开水（默认初始化），然后再倒掉，重新倒上可乐（赋值）。
+       写法二：就像直接跟老板说“给我来一杯装好可乐的杯子”（初始化）。
+
+       写法一：构造函数体内赋值**
+       先对 `spim_instance` 执行**默认初始化**，再执行 `operator=` 赋值。
+
+       写法二：初始化列表初始化**
+       直接用 `p_instance` 去**构造** `spim_instance`，只一步。
+
+       ---
+
+       情况 1：spim_instance 是普通指针 `const nrfx_spim_t* spim_instance;`
+
+         最终运行结果**数值上一样**，但是流程不同：
+         写法一流程：
+
+         1. 进入构造函数前：`spim_instance` 默认初始化（野指针！随机值）
+         2. 进到 `{}` 内部：`spim_instance = p_instance;` 覆盖指针值
+
+         写法二流程：
+         1. 构造函数 `{}` 之前：直接 `spim_instance(p_instance)`，指针直接被初始化为入参，**不存在野指针中间状态**
+            嵌入式非常看重这点：初始化列表没有中间野值，更安全。
+
+        情况 2：spim_instance 是引用 /const 成员
+         写法一 **编译报错**！引用、`const` 成员**必须在初始化列表初始化，不能在函数体内赋值**
+         写法二 正常编译
+
+        情况 3：spim_instance 是自定义类对象（有构造函数）
+         写法一：
+             1. 先调用 `spim_instance` 的**无参默认构造**
+             2. 再调用赋值运算符 `operator=`
+
+         写法二：
+             1. 直接调用 `spim_instance( p_instance )` 匹配的构造函数（拷贝构造 / 带参构造）
+                少一次构造开销，MCU C++ 里优先选这个。
 
 
-    举个通俗的例子
-    写法一：就像买了个空水杯，先倒满白开水（默认初始化），然后再倒掉，重新倒上可乐（赋值）。
-    写法二：就像直接跟老板说“给我来一杯装好可乐的杯子”（初始化）。
+16. static_cast 是 C++ 的安全类型转换  //用尖括号<>
 
-    写法一：构造函数体内赋值**
-    先对 `spim_instance` 执行**默认初始化**，再执行 `operator=` 赋值。
-
-    写法二：初始化列表初始化**
-    直接用 `p_instance` 去**构造** `spim_instance`，只一步。
-
----
-
-    情况 1：spim_instance 是普通指针 `const nrfx_spim_t* spim_instance;`
-
-      最终运行结果**数值上一样**，但是流程不同：
-      写法一流程：
-
-      1. 进入构造函数前：`spim_instance` 默认初始化（野指针！随机值）
-      2. 进到 `{}` 内部：`spim_instance = p_instance;` 覆盖指针值
-
-      写法二流程：
-      1. 构造函数 `{}` 之前：直接 `spim_instance(p_instance)`，指针直接被初始化为入参，**不存在野指针中间状态**
-         嵌入式非常看重这点：初始化列表没有中间野值，更安全。
-
-     情况 2：spim_instance 是引用 /const 成员
-      写法一 **编译报错**！引用、`const` 成员**必须在初始化列表初始化，不能在函数体内赋值**
-      写法二 正常编译
+    spim_basic * p_this  = static_cast<spim_basic *>(p_context);
 
 
-     情况 3：spim_instance 是自定义类对象（有构造函数）
-      写法一：
-          1. 先调用 `spim_instance` 的**无参默认构造**
-          2. 再调用赋值运算符 `operator=`
-
-      写法二：
-          1. 直接调用 `spim_instance( p_instance )` 匹配的构造函数（拷贝构造 / 带参构造）
-             少一次构造开销，MCU C++ 里优先选这个。
 
 
 
