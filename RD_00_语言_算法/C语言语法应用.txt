@@ -325,6 +325,78 @@
 
 
 
+19.  关于空宏的详细解释
+
+         #define USBD_PROFILE_CALL_VOID(EventId)
+
+         //通常配套 `#ifdef`
+         #ifdef USBD_PROFILE_ENABLE_EVENT
+         #define USBD_PROFILE_CALL_VOID(EventId)  usbd_profile_event_handler(EventId)
+         #else
+         #define USBD_PROFILE_CALL_VOID(EventId)  // 空，不调用
+         #endif
+
+         这个宏是封装 USB Profile 层的**void 型事件派发**，方便开启 / 关闭 USB 事件回调，不用到处注释代码。
+
+
+         // 宏完整定义
+         #ifdef USBD_PROFILE_ENABLE_EVENT
+         #define USBD_PROFILE_CALL_VOID(EventId) \
+             do { \
+                 if (usbd_profile_event_handler != NULL) { \
+                     usbd_profile_event_handler((uint32_t)(EventId)); \
+                 } \
+             } while(0)
+         #else
+         #define USBD_PROFILE_CALL_VOID(EventId)
+         #endif
+
+         ---------------------------------------举例说明----------------------------------------
+
+         // 回调函数原型
+         typedef void (*usbd_profile_event_cb_t)(uint32_t EventId);
+         extern usbd_profile_event_cb_t usbd_profile_event_handler;
+
+         // 事件ID枚举
+         typedef enum
+         {
+             USBD_EVT_NONE        = 0,
+             USBD_EVT_CONNECT     = 1,
+             USBD_EVT_DISCONNECT  = 2,
+         } usbd_profile_event_id_t;
+
+         // 宏完整定义
+         #ifdef USBD_PROFILE_ENABLE_EVENT
+         #define USBD_PROFILE_CALL_VOID(EventId) \
+             do { \
+                 if (usbd_profile_event_handler != NULL) { \
+                     usbd_profile_event_handler((uint32_t)(EventId)); \
+                 } \
+             } while(0)
+         #else
+         #define USBD_PROFILE_CALL_VOID(EventId)
+         #endif
+
+         //中断函数
+         void my_usb_event(uint32_t evt)
+         {
+             switch(evt)
+             {
+                 case USBD_EVT_CONNECT:
+                     break;
+                 case USBD_EVT_DISCONNECT:
+                     break;
+                 default:
+                     break;
+             }
+         }
+         usbd_profile_event_handler = my_usb_event;
+
+
+         //调用，触发中断
+         USBD_PROFILE_CALL_VOID(USBD_EVT_CONNECT);
+
+
 
 
 
