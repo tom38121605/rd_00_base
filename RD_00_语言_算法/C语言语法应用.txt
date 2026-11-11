@@ -198,7 +198,7 @@
 15. 类成员变量，在构造函数前初始化变量
 
       下面两种写法的区别
-       写法一 （不ok）
+       写法一 （不ok， 但容易理解）
        spim_basic::spim_basic(const nrfx_spim_t * p_instance)
        {
        spim_instance = p_instance;
