@@ -397,7 +397,10 @@
          USBD_PROFILE_CALL_VOID(USBD_EVT_CONNECT);
 
 
+20. 防止编译器瞎waring的闭嘴宏 USBD_API_USE
 
+     #define USBD_API_USE    
+     _UpdateEP( pEPStat) USBD_API_USE     //  USBD_API_USE的作用是如果参数 pEPStat未被使用，编译是不要waring
 
 
 
