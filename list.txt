@@ -1,0 +1,183 @@
+查看： 右键c盘 -- 属性  -- 常规选项卡  -- 详细信息  -- 临时文件 -- 删除 “系统内存错误转储文件”  和 “Windows 更新清理
+查看： 右键c盘 -- 属性  -- 常规选项卡  -- 详细信息  -- 系统和保留 -- 系统还原 -- 管理系统还原 -- 配置 -- 删除还原点（待测试）
+
+----------  可删除的第一梯队 -------------
+
+卸载Microsoft Edge      //2.1G
+卸载微信                //600M
+
+C:\mingw64-nouse        //400M
+C:\visqol_nouse                                                //2026下半年考虑 
+
+//C:\Program Files\Google\Chrome\Application\133.0.6943.53-old-nouse 已删  //待验证11.25 -- 12.25，一个月内浏览器无异常可删除
+//C:\Windows\assembly\temp-nouse 已删
+
+
+
+----------  可删除的第二梯队 -------------
+
+
+ 
+
+C:\Users\HP\.stm32cubeide\.jxbrowser-7.30.2\Profile_nouse      //2026下半年考虑   4G      //已删 保留
+C:\Users\HP\.vscode\extensions_nouse                           //2026下半年考虑   1.58G
+C:\Users\HP\AppData\Roaming\Tencent\xwechat\XPlugin\Plugins_nouse   //2026下半年考虑   0.6G
+C:\Users\HP\AppData\Roaming\quark-cloud-drive_nouse               //2026下半年考虑   0.9G
+C:\Users\HP\AppData\Roaming\Code\Cache                            //2026下半年考虑    0.28G
+C:\Users\HP\AppData\Local\Arduino15\staging_nouse                //2026下半年考虑    0.84G
+
+C:\Users\HP\Documents\PlatformIO-nouse                           //2027下半年考虑    0.849G
+C:\Users\HP\.platformio-nouse                                    //2027下半年考虑    0.61G
+
+
+C:\Users\HP\AppData\Local\mbed-studio-updater-nouse         //1.1G   已移到c：\nouse 
+C:\Users\HP\Documents\MCUXpressoIDE_11.6.1_8255-nouse  //待分析  20M   已移到c：\nouse 
+C:\Users\HP\Documents\MCUXpressoIDE_11.7.0_9198-nouse  //400M待分析   已移到c：\nouse 
+
+
+C:\Users\HP\Documents\MuMu共享文件夹-nouse             //待分析
+
+
+
+
+----------  可删除的第三梯队 -------------
+
+C:\Users\HP\STM32Cube\Repository-nouse           //2027 上半年考虑    3.1G
+
+
+C:\Program Files\JetBrains\PyCharm Community Edition 2023.3.3    //把pycharm卸载，重新安装到d盘
+
+
+C:\Program Files\dotnet\packs\Microsoft.Android.Ref.35   //可考虑先移到nouse
+   //Microsoft.Android.  ，  Microsoft.iOS，  Microsoft.MacCatalyst. 开头的目录可以删除吗  （只在pc的windows上使用）
+   dotnet --list-sdks
+   dotnet --list-runtimes
+   如果输出中没有包含 net7.0-android、net8.0-android 等 Android 相关的运行时，那么删除该文件夹的风险更低。
+
+
+
+C:\Users\HP\AppData\Local\Arm\Packs    //不能全删，可删除其他部分，象stm32H7等
+
+
+
+
+=======================================
+
+三、关闭 “系统保护 / 还原点”（占空间大户）
+Win+I → 系统 → 关于 → 系统保护（最下面）
+选中 C 盘 → 配置
+选 关闭系统保护 → 确定
+会删掉所有还原点，释放十几 GB 很常见。
+
+
+五、彻底禁用备份服务（可选，更干净）
+Win+R → services.msc → 回车
+找到 Windows Backup/Windows 备份 → 右键 属性
+启动类型：禁用 → 点 停止 → 确定
+
+
+----------  其他 -------------
+
+
+C:\Users\HP\AppData\Local\Google     //-1.3G，待分析
+
+
+C:\Users\HP\STM32Cube\Repository\_nouse2    //？
+
+C:\nouse
+
+D:\test1\local\_old
+
+D:\$WINDOWS.~TMP    //8G
+
+D:\nouse           //5G
+
+C:\Windows\Panther-seems-nouse        //待验证11.25 -- 12.25，一个月内浏览器无异常可删除
+ 
+ 
+
+
+-----------google 缓冲区---------------
+
+注意：会把豆包最近会话清除  （实际测试 不影响豆包，豆包会话只跟是否登录有关）
+
+C:\Users\HP\AppData\Local\Google\Chrome\User Data\Default\IndexedDB     //是否可删除，待验证
+C:\Users\HP\AppData\Local\Google\Chrome\User Data\Default\Cache         //是否可删除，待验证
+C:\Users\HP\AppData\Local\Google\Chrome\User Data\Default\Code Cache    //是否可删除，待验证
+C:\Users\HP\AppData\Local\Google\Chrome\User Data\Default\Service Worker-0.45G-nouse   //是否可删除，待验证
+
+
+
+-----------google 缓冲区-----end----------
+
+
+D:\Program Files\Foxmail 7.2-nouse    //或卸载
+
+
+
+----------------------------下面常用----keep------------------------
+
+
+C:\Users\HP\AppData\Local\Temp\__nouse        （%temp%）
+
+C:\Users\HP\AppData\Roaming\Code\CachedExtensionVSIXs\__NOUSE        (已删除)
+
+C:\Users\HP\AppData\Local\Microsoft\vscode-cpptools\ipch-nouse   //5G    (已删除)
+
+C:\Users\HP\STM32Cube\Repository
+
+C:\Users\HP\.stm32cubeide\.jxbrowser-7.30.2\Profile      //4G  待验证
+C:\Users\HP\.vscode\extensions_nouse                     //1.5G待验证
+C:\Users\HP\Documents\MCUXpressoIDE_11.7.0_9198          //打开新工程的临时文件
+C:\Users\HP\AppData\Roaming\Tencent\xwechat\XPlugin\Plugins_nouse  //0.6G  
+C:\Users\HP\AppData\Roaming\quark-cloud-drive_nouse      //夸克网盘临时文件  0.95G
+C:\Users\HP\AppData\Roaming\Code\Cache                   //VSCODE 临时文件  0.28G
+C:\Users\HP\AppData\Local\Arduino15\staging_nouse        //arduino 临时文件  0.84G
+
+
+------------------------------old--------------------------------------
+
+
+//C:\ProgramData\Realtek\_nouse            //1.5G
+//C:\Users\HP\AppData\Roaming\Tencent\QQ\Temp-NOUSE
+//C:\Users\HP\AppData\Local\Doubao-nouse                     //2.0G     已删 
+
+
+==========================
+
+打开豆包电脑版，点击右上角的「设置」图标（齿轮状）；
+在设置页面找到「缓存清理」或「存储管理」选项（不同版本位置可能略有差异，通常在 “通用设置” 里）；
+点击「清理缓存」，等待软件自动删除 Doubao 文件夹下的缓存文件（包括聊天图片、临时数据等），无需手动找路径。
+
+
+
+=======================================================
+
+
+1. 去 hub1  各大目录
+1. 去 hub2
+2. 带 草稿废纸
+3. 去 888.txt
+4. 去 大u盘
+5. unintall fork win8
+
+6. 抽屉药品
+6. 抽屉剃须刀
+
+7. 退出豆包
+7. 退出deepseek
+7. aws pwd 告知
+8. 风扇，水杯，手机充电线
+
+
+
+
+
+
+
+
+
+
+
+
+
