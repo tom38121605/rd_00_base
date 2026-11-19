@@ -392,7 +392,6 @@
          }
          usbd_profile_event_handler = my_usb_event;
 
-
          //调用，触发中断
          USBD_PROFILE_CALL_VOID(USBD_EVT_CONNECT);
 
@@ -401,6 +400,20 @@
 
      #define USBD_API_USE    
      _UpdateEP( pEPStat) USBD_API_USE     //  USBD_API_USE的作用是如果参数 pEPStat未被使用，编译是不要waring
+
+
+21.  类成员函数的 nodiscard 和 const 
+
+      [[nodiscard]]spim_basic::get_start_task() const
+      {
+          return nrfx_spim_start_task_get(spim_instance);
+      }
+
+      [[nodiscard]]：警告你不要丢掉返回值，这个返回值有用
+      const`：不修改类成员
+
+
+
 
 
 
