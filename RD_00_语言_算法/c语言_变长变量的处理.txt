@@ -1,0 +1,143 @@
+--------------
+
+参数： adc_data_buffer, 4 * 4, curent_sample_timestamp, current_sample_timestamp_offest   //忽略 current_sample_timestamp_offest 参数
+
+sample_set_ready(  data, data_size,  timestamp,  timestamp_offset)
+
+
+    if(data_mode == DATA_MODE_USB)
+    
+        packet_size = 1 + 4 + data_size;   //  5 + 16
+
+        //COBS 编码，添加包分隔符0x00，再通过 USB 发送
+        //usb_serial_write_data_packet_vargs( packet_size,  1, &packet_id,  4, &timestamp,  data_size, data,   0);
+          usb_serial_write_data_packet_vargs( 21,  1, &packet_id,  4, curent_sample_timestamp,  16, adc_data_buffe,  0 );
+
+
+    tx_count++;
+
+
+-----------
+
+//把开始长度字节后面的所有参数的数据，用COBS编码，通过usb uart发送出去
+
+参数： 21,  1, &packet_id,  4, curent_sample_timestamp,  16, adc_data_buffe,  0 
+
+usb_serial_write_data_packet_vargs(  data_length, ...)
+
+    va_list args;
+
+    va_start(args, data_length);
+
+    usb_serial.write_data_packet_vargslist(data_length, args);
+
+    va_end(args);
+
+    return rvalue;
+
+
+------------
+
+参数：21, args  ( 1, &packet_id,  4, curent_sample_timestamp,  16, adc_data_buffe,  0 )
+
+comms_packetizer::write_data_packet_vargslist(  data_length,   valist )
+
+
+    if (transport_device->is_connected())   //usb已连上电脑
+    
+        // 看仓库还剩多少空地。如果这包货放得下，就提前把这块地盘占住（移动写入指针）
+        output_length = COBS_POST0_MAX_LEN(data_length);  //21 --> 23
+
+        CRITICAL_REGION_ENTER();
+
+        if ( tx_buffer_active_top + output_length < USB_SERIAL_TX_BUFFER_SIZE )   //16384
+        
+            tx_write_location = tx_buffer_active_top;
+            tx_buffer_active_top += output_length;
+
+            //超时定时器重新计数
+            if (RTC_TIMER)            
+                VERIFY_SUCCESS(rtc_timer_reset_timeout(flush_timeout_channel));
+            
+            err_code = NRF_SUCCESS;
+
+        
+        else  // Buffer full           
+            tx_lost_packets++;
+            err_code = NRF_ERROR_BUSY;
+
+        
+        CRITICAL_REGION_EXIT();
+
+        // 把传感器数据插入到usb缓冲区的指定位置
+        // 因USB 事件队列是最低优先级处理，所以这段代码不会被usb队列打断
+
+        if (err_code == NRF_SUCCESS)  
+      
+            cobs_encode_post_zero_pad_vargs( tx_buffer_active + tx_write_location, output_length, valist );
+            
+    else    
+        tx_lost_packets++;
+    
+
+
+----------
+
+
+参数：tx_buffer_active + tx_write_location, 21, args  ( 1, &packet_id,  4, curent_sample_timestamp,  16, adc_data_buffe,  0 )
+
+cobs_encode_post_zero_pad_vargs(  dst,  dst_length,  valist )
+ 
+    end = dst + dst_length;
+
+    uint8_t code, *code_ptr;  
+
+    //StartBlock();
+        code_ptr = dst++;
+        code = 1;
+
+    while(true)
+     
+        // 取得当前列表中参数元素的长度
+        arg_len = va_arg(valist, int32_t);
+
+        if(arg_len == 0) //碰到args，跳出while
+            break;
+ 
+        //取得当前列表中参数元素的数据指针
+        arg_data = va_arg(valist, uint8_t *);
+ 
+        for( b = 0; b < arg_len; b++)
+        
+            if (code != 0xFF)
+            
+                c = *arg_data++;
+
+                if (c != 0)
+                
+                    *dst++ = c;
+                    code++;
+                    continue;     //绕过下面的 FinishBlock 和 StartBlock
+                
+             
+            //FinishBlock();      
+               *code_ptr = code
+
+            //StartBlock();
+               code_ptr = dst++;
+               code = 1;
+     
+
+    //FinishBlock();
+        *code_ptr = code
+
+
+    //Make sure we didn't overrun the buffer
+    ASSERT(dst <= end);
+
+    //最后加个0做结尾符
+    while(dst < end) *dst++ = 0;
+ 
+
+
+
